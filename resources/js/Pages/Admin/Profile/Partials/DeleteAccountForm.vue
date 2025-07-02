@@ -27,16 +27,16 @@ const submit = () => {
 
 <template>
   <div class="card">
-    <div class="card-header">Delete Account</div>
+    <div class="card-header"><i class="bi bi-person-x"></i> Delete Account</div>
     <div class="card-body">
       <form @submit.prevent="submit">
         <div class="mb-3">
-          <label class="form-label">Password</label>
+          <label class="form-label"><i class="bi bi-key"></i> Password</label>
           <input v-model="form.password" type="password" class="form-control" placeholder="Enter your password to confirm" />
           <div v-if="form.errors.password" class="text-danger">{{ form.errors.password }}</div>
         </div>
         <button type="submit" class="btn btn-danger" :disabled="form.processing">
-          {{ form.processing ? 'Deleting...' : 'Delete Account' }}
+          <i class="bi bi-trash"></i> {{ form.processing ? 'Deleting...' : 'Delete Account' }}
         </button>
       </form>
     </div>

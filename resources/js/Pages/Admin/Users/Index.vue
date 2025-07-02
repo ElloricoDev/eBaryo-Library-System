@@ -50,9 +50,8 @@ const confirmDelete = (id) => {
         <div class="mb-3">
             <Link
                 :href="route('admin.users.create')"
-                class="bi bi-plus btn btn-primary"
-                >Create User</Link
-            >
+                class="btn btn-primary"
+            ><i class="bi bi-plus"></i> Create User</Link>
         </div>
 
         <div class="table-responsive">
@@ -60,10 +59,10 @@ const confirmDelete = (id) => {
                 <thead class="table-light">
                     <tr>
                         <th>#</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Role</th>
-                        <th>Registered At</th>
+                        <th><i class="bi bi-person"></i> Name</th>
+                        <th><i class="bi bi-envelope"></i> Email</th>
+                        <th><i class="bi bi-person-badge"></i> Role</th>
+                        <th><i class="bi bi-calendar"></i> Registered At</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -80,13 +79,11 @@ const confirmDelete = (id) => {
                             <Link
                                 :href="route('admin.users.show', user.id)"
                                 class="btn btn-sm btn-info me-1"
-                                >View</Link
-                            >
+                            ><i class="bi bi-eye"></i> View</Link>
                             <Link
                                 :href="route('admin.users.edit', user.id)"
                                 class="btn btn-sm btn-warning me-1"
-                                >Edit</Link
-                            >
+                            ><i class="bi bi-pencil"></i> Edit</Link>
                             <form
                                 :action="route('admin.users.destroy', user.id)"
                                 method="post"
@@ -97,7 +94,7 @@ const confirmDelete = (id) => {
                                     type="submit"
                                     class="btn btn-sm btn-danger"
                                 >
-                                    Delete
+                                    <i class="bi bi-trash"></i> Delete
                                 </button>
                             </form>
                         </td>

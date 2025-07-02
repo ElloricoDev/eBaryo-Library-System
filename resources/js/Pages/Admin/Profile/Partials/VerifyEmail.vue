@@ -44,19 +44,19 @@ const submit = () => {
 
 <template>
   <div class="card mb-4">
-    <div class="card-header">Verify Email</div>
+    <div class="card-header"><i class="bi bi-envelope-check"></i> Verify Email</div>
     <div class="card-body">
       <div v-if="isVerified" class="alert alert-success mb-3">
         Your email is already verified.
       </div>
       <form @submit.prevent="submit">
         <div v-if="!isGoogleUser && !isVerified" class="mb-3">
-          <label class="form-label">Password</label>
+          <label class="form-label"><i class="bi bi-key"></i> Password</label>
           <input v-model="form.password" type="password" class="form-control" :disabled="isVerified" />
           <div v-if="form.errors.password" class="text-danger">{{ form.errors.password }}</div>
         </div>
         <button type="submit" class="btn btn-primary" :disabled="submitting || form.processing || isVerified">
-          {{ submitting || form.processing ? 'Sending...' : 'Send Verification Email' }}
+          <i class="bi bi-send"></i> {{ submitting || form.processing ? 'Sending...' : 'Send Verification Email' }}
         </button>
       </form>
     </div>

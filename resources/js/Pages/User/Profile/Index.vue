@@ -33,24 +33,26 @@ const user = props.user
           </div>
         </div>
 
-        <p><strong>User Name:</strong> {{ user.user_name || 'N/A' }}</p>
-        <p><strong>First Name:</strong> {{ user.first_name || 'N/A' }}</p>
-        <p><strong>Middle Name:</strong> {{ user.middle_name || 'N/A' }}</p>
-        <p><strong>Last Name:</strong> {{ user.last_name || 'N/A' }}</p>
-        <p><strong>Contact Number:</strong> {{ user.contact_number || 'N/A' }}</p>
-        <p><strong>Address:</strong> {{ user.address || 'N/A' }}</p>
-        <p><strong>Email:</strong> {{ user.email || 'N/A' }}</p>
+        <p><strong><i class="bi bi-person"></i> User Name:</strong> {{ user.user_name || 'N/A' }}</p>
+        <p><strong><i class="bi bi-person"></i> First Name:</strong> {{ user.first_name || 'N/A' }}</p>
+        <p><strong><i class="bi bi-person"></i> Middle Name:</strong> {{ user.middle_name || 'N/A' }}</p>
+        <p><strong><i class="bi bi-person"></i> Last Name:</strong> {{ user.last_name || 'N/A' }}</p>
+        <p><strong><i class="bi bi-telephone"></i> Contact Number:</strong> {{ user.contact_number || 'N/A' }}</p>
+        <p><strong><i class="bi bi-geo-alt"></i> Address:</strong> {{ user.address || 'N/A' }}</p>
+        <p><strong><i class="bi bi-envelope"></i> Email:</strong> {{ user.email || 'N/A' }}</p>
         <p>
-          <strong>Email Status:</strong>
+          <strong><i class="bi bi-patch-check"></i> Email Status:</strong>
           <span v-if="user.email_verified_at" class="text-success">Verified</span>
           <span v-else class="text-danger">Not Verified</span>
         </p>
+        <p><strong><i class="bi bi-person-badge"></i> Role:</strong> {{ user.role || 'N/A' }}</p>
         <div class="mb-3">
-          <label class="form-label fw-bold">Student:</label>
+          <label class="form-label fw-bold"><i class="bi bi-mortarboard"></i> Student:</label>
           <span>{{ user.student === 'yes' ? 'Yes' : 'No' }}</span>
         </div>
+
         <Link :href="route('user.profile.edit')" class="btn btn-warning mt-3">
-          Edit Profile
+          <i class="bi bi-pencil-square"></i> Edit Profile
         </Link>
       </div>
     </div>

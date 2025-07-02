@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Auth\EmailVerificationController;
 
 
 Route::get('/', function () {
@@ -31,10 +32,8 @@ Route::middleware(['auth'])->group(function () {
         return view('auth.verify-email');
     })->name('verification.notice');
 
-    Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-        $request->fulfill();
-        return redirect('/');
-    })->middleware(['signed'])->name('verification.verify');
+    Route::get('/email/verify/{id}/{hash}', EmailVerificationController::class)
+        ->middleware(['signed'])->name('verification.verify');
 
     Route::post('/email/verification-notification', function () {
         Auth::user()->sendEmailVerificationNotification();

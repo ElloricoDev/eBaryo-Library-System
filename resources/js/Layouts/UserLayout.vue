@@ -13,7 +13,9 @@ const props = defineProps({
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm fixed-top">
       <div class="container-fluid">
-        <Link class="navbar-brand fw-bold" :href="route('home')">eBaryo</Link>
+        <Link class="navbar-brand fw-bold" :href="route('home')">
+          <i class="bi bi-book"></i> eBaryo
+        </Link>
 
         <button
           class="navbar-toggler"
@@ -27,10 +29,10 @@ const props = defineProps({
         <div class="collapse navbar-collapse" id="userNavbar">
           <ul class="navbar-nav me-auto">
             <li class="nav-item">
-              <Link class="nav-link" href="/books">Books</Link>
+              <Link class="nav-link" href="/books"><i class="bi bi-journal-bookmark"></i> Books</Link>
             </li>
             <li class="nav-item">
-              <Link class="nav-link" href="/saved">Saved</Link>
+              <Link class="nav-link" href="/saved"><i class="bi bi-bookmark-heart"></i> Saved</Link>
             </li>
           </ul>
 
@@ -45,9 +47,9 @@ const props = defineProps({
               <i class="bi bi-person-circle me-1"></i> {{ props.user?.user_name || 'Profile' }}
             </button>
             <ul class="dropdown-menu dropdown-menu-end">
-              <li><Link class="dropdown-item" :href="route('user.profile.index')">Profile</Link></li>
+              <li><Link class="dropdown-item" :href="route('user.profile.index')"><i class="bi bi-person-lines-fill"></i> Profile</Link></li>
               <li><hr class="dropdown-divider" /></li>
-              <li><Link class="dropdown-item text-danger" :href="route('logout')" method="post">Logout</Link></li>
+              <li><Link class="dropdown-item text-danger" :href="route('logout')" method="post"><i class="bi bi-box-arrow-right"></i> Logout</Link></li>
             </ul>
           </div>
         </div>
@@ -62,7 +64,7 @@ const props = defineProps({
 
     <!-- Optional footer -->
     <footer class="bg-light py-3 text-center border-top">
-      <small>&copy; {{ new Date().getFullYear() }} eBaryo Library</small>
+      <small><i class="bi bi-c-circle"></i> {{ new Date().getFullYear() }} eBaryo Library</small>
     </footer>
   </div>
 </template>

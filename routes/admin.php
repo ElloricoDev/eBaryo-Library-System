@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminControllers\BookController;
 use App\Http\Controllers\AdminControllers\DashboardController;
 use App\Http\Controllers\AdminControllers\ProfileController;
 use App\Http\Controllers\AdminControllers\UserController;
@@ -27,6 +28,20 @@ Route::middleware('auth', 'admin')->group(function () {
         ->prefix('admin/users')
         ->name('admin.users.')
         ->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/create', 'create')->name('create');
+            Route::post('/store', 'store')->name('store');
+            Route::get('/{id}', 'show')->name('show');
+            Route::get('/edit/{id}', 'edit')->name('edit');
+            Route::put('/update/{id}', 'update')->name('update');
+            Route::delete('/delete/{id}', 'destroy')->name('destroy');
+        });
+    
+    //Admin Books Management Routes
+    Route::controller(BookController::class)
+        ->prefix('admin/books')
+        ->name('admin.books.')
+        ->group(function() {
             Route::get('/', 'index')->name('index');
             Route::get('/create', 'create')->name('create');
             Route::post('/store', 'store')->name('store');

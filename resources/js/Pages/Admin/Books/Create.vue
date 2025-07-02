@@ -1,0 +1,160 @@
+<script setup>
+import AdminLayout from '@/Layouts/AdminLayout.vue';
+import { useForm, usePage, Link, router } from '@inertiajs/vue3';
+import Swal from 'sweetalert2';
+import { ref } from 'vue';
+
+defineOptions({ layout: AdminLayout })
+
+const { props } = usePage();
+const categories = props.categories || [];
+
+const form = useForm({
+  title: '',
+  author: '',
+  isbn: '',
+  published_year: '',
+  description: '',
+  cover_image: null,
+  ebook_file: null,
+  category_id: '',
+  publisher: '',
+  language: '',
+  status: 'active',
+});
+
+const coverPreview = ref(null);
+const ebookName = ref('');
+
+const onCoverChange = (e) => {
+  const file = e.target.files[0];
+  form.cover_image = file;
+  if (file) {
+    coverPreview.value = URL.createObjectURL(file);
+  } else {
+    coverPreview.value = null;
+  }
+};
+
+const onEbookChange = (e) => {
+  const file = e.target.files[0];
+  if (file && file.size > 800 * 1024 * 1024) { // 800MB
+    Swal.fire({
+      icon: 'error',
+      title: 'File too large',
+      text: 'The ebook file must be 800MB or less.',
+    });
+    form.ebook_file = null;
+    ebookName.value = '';
+    e.target.value = '';
+    return;
+  }
+  form.ebook_file = file;
+  ebookName.value = file ? file.name : '';
+};
+
+const submit = () => {
+  form.post(route('admin.books.store'), {
+    forceFormData: true,
+    preserveScroll: true,
+    onSuccess: () => {
+      Swal.fire({
+        icon: 'success',
+        title: 'Book Created',
+        text: 'The book has been added successfully.',
+        timer: 2000,
+        showConfirmButton: false,
+      });
+      router.visit(route('admin.books.index'));
+    },
+  });
+};
+</script>
+
+<template>
+  <div class="container py-4">
+    <div class="d-flex align-items-center mb-4">
+      <Link :href="route('admin.books.index')" class="btn btn-secondary me-3">
+        ← Back
+      </Link>
+      <h1 class="fs-3 fw-bold mb-0">Add Book</h1>
+    </div>
+    <form @submit.prevent="submit" enctype="multipart/form-data">
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label"><i class="bi bi-book"></i> Title</label>
+          <input v-model="form.title" type="text" class="form-control" />
+          <div v-if="form.errors.title" class="text-danger">{{ form.errors.title }}</div>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label"><i class="bi bi-person"></i> Author</label>
+          <input v-model="form.author" type="text" class="form-control" />
+          <div v-if="form.errors.author" class="text-danger">{{ form.errors.author }}</div>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label"><i class="bi bi-upc"></i> ISBN</label>
+          <input v-model="form.isbn" type="text" class="form-control" />
+          <div v-if="form.errors.isbn" class="text-danger">{{ form.errors.isbn }}</div>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label"><i class="bi bi-calendar"></i> Published Year</label>
+          <input v-model="form.published_year" type="number" class="form-control" />
+          <div v-if="form.errors.published_year" class="text-danger">{{ form.errors.published_year }}</div>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label"><i class="bi bi-building"></i> Publisher</label>
+          <input v-model="form.publisher" type="text" class="form-control" />
+          <div v-if="form.errors.publisher" class="text-danger">{{ form.errors.publisher }}</div>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label"><i class="bi bi-translate"></i> Language</label>
+          <input v-model="form.language" type="text" class="form-control" />
+          <div v-if="form.errors.language" class="text-danger">{{ form.errors.language }}</div>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label"><i class="bi bi-tags"></i> Category</label>
+          <select v-model="form.category_id" class="form-control">
+            <option value="">Select Category</option>
+            <option v-for="cat in categories" :key="cat.id" :value="cat.id">{{ cat.name }}</option>
+          </select>
+          <div v-if="form.errors.category_id" class="text-danger">{{ form.errors.category_id }}</div>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label"><i class="bi bi-info-circle"></i> Status</label>
+          <select v-model="form.status" class="form-control">
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+          </select>
+          <div v-if="form.errors.status" class="text-danger">{{ form.errors.status }}</div>
+        </div>
+        <div class="col-md-12">
+          <label class="form-label"><i class="bi bi-card-text"></i> Description</label>
+          <textarea v-model="form.description" class="form-control" rows="3"></textarea>
+          <div v-if="form.errors.description" class="text-danger">{{ form.errors.description }}</div>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label"><i class="bi bi-image"></i> Cover Image</label>
+          <input type="file" class="form-control" @change="onCoverChange" accept="image/*" />
+          <div v-if="form.errors.cover_image" class="text-danger">{{ form.errors.cover_image }}</div>
+          <div v-if="coverPreview" class="mt-2">
+            <img :src="coverPreview" alt="Cover Preview" class="rounded border" style="width: 80px; height: 80px; object-fit: cover;" />
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label"><i class="bi bi-file-earmark"></i> Ebook File</label>
+          <input type="file" class="form-control" @change="onEbookChange" accept=".pdf,.epub,.mobi,.txt,.docx,.azw3,.fb2,.djvu,.rtf,.html,.htm" />
+          <div v-if="ebookName" class="mt-1 text-muted">Selected: {{ ebookName }}</div>
+          <div v-if="form.errors.ebook_file" class="text-danger">{{ form.errors.ebook_file }}</div>
+        </div>
+      </div>
+      <div class="mt-4">
+        <button type="submit" class="btn btn-primary" :disabled="form.processing">
+          <i class="bi bi-plus"></i> {{ form.processing ? 'Saving...' : 'Add Book' }}
+        </button>
+        <Link :href="route('admin.books.index')" class="btn btn-secondary ms-2">
+          <i class="bi bi-arrow-left"></i> Cancel
+        </Link>
+      </div>
+    </form>
+  </div>
+</template>

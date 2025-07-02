@@ -14,16 +14,16 @@ const user = props.auth?.user || {}
       <h5 class="mb-4">Admin Panel</h5>
       <ul class="nav flex-column">
         <li class="nav-item">
-          <Link class="nav-link active" :href="route('dashboard')">Dashboard</Link>
+          <Link class="nav-link" :href="route('dashboard')"><i class="bi bi-speedometer2"></i> Dashboard</Link>
         </li>
         <li class="nav-item">
-          <Link class="nav-link" :href="route('admin.users.index')">Users</Link>
+          <Link class="nav-link" :href="route('admin.users.index')"><i class="bi bi-people"></i> Users</Link>
         </li>
         <li class="nav-item">
-          <Link class="nav-link" href="#">Books</Link>
+          <Link class="nav-link" :href="route('admin.books.index')"><i class="bi bi-book"></i> Books</Link>
         </li>
         <li class="nav-item">
-          <Link class="nav-link" href="#">Settings</Link>
+          <Link class="nav-link" href="#"><i class="bi bi-gear"></i> Settings</Link>
         </li>
       </ul>
     </nav>
@@ -69,10 +69,10 @@ const user = props.auth?.user || {}
             <span>{{ user.user_name || 'Admin' }}</span>
           </button>
           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
-            <li><Link class="dropdown-item" :href="route('admin.profile.index')">Profile</Link></li>
-            <li><Link class="dropdown-item" href="#">Settings</Link></li>
+            <li><Link class="dropdown-item" :href="route('admin.profile.index')"><i class="bi bi-person"></i> Profile</Link></li>
+            <li><Link class="dropdown-item" href="#"><i class="bi bi-gear"></i> Settings</Link></li>
             <li><hr class="dropdown-divider" /></li>
-            <li><Link class="dropdown-item text-danger" :href="route('logout')" method="post">Logout</Link></li>
+            <li><Link class="dropdown-item text-danger" :href="route('logout')" method="post"><i class="bi bi-box-arrow-right"></i> Logout</Link></li>
           </ul>
         </div>
       </header>
@@ -90,8 +90,4 @@ const user = props.auth?.user || {}
   margin-left: 250px;
 }
 
-.nav-link.active {
-  font-weight: bold;
-  color: #0d6efd !important;
-}
 </style>
