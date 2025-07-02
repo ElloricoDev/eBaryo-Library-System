@@ -8,7 +8,7 @@ use Inertia\Inertia;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Auth\EmailVerificationController;
-
+use App\Http\Controllers\UserControllers\BookController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome');
@@ -16,15 +16,27 @@ Route::get('/', function () {
 
 Route::middleware('auth', 'user')->group(function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile');
-    Route::controller(ProfileController::class)->prefix('user/profile')->name('user.profile.')->group(function () {
-        Route::get('/', 'index')->name('index');
-        Route::get('/edit', 'edit')->name('edit');
-        Route::put('/update', 'update')->name('update');
-        Route::put('/password', 'updatePassword')->name('password.update');
-        Route::delete('/delete', 'destroy')->name('destroy');
-        Route::post('/send-verification-email', 'sendVerificationEmail')->name('sendVerificationEmail');
+
+    //Profile Routes
+    Route::controller(ProfileController::class)
+        ->prefix('user/profile')
+        ->name('user.profile.')
+        ->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/edit', 'edit')->name('edit');
+            Route::put('/update', 'update')->name('update');
+            Route::put('/password', 'updatePassword')->name('password.update');
+            Route::delete('/delete', 'destroy')->name('destroy');
+            Route::post('/send-verification-email', 'sendVerificationEmail')->name('sendVerificationEmail');
     });
+
+    //Home Routes
+    
+
+    //Book Routes
+    Route::get('/books',[BookController::class, 'index'])->name('books.index');
+    Route::get('/books/{id}', [BookController::class, 'show'])->name('books.view');
+    Route::get('/books/{id}/read', [BookController::class, 'read'])->name('books.read');
 });
 
 Route::middleware(['auth'])->group(function () {

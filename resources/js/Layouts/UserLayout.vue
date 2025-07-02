@@ -1,11 +1,7 @@
 <script setup>
-import { Link } from '@inertiajs/vue3'
-const props = defineProps({
-  user: {
-    type: Object,
-    default: null
-  }
-})
+import { Link, usePage } from '@inertiajs/vue3'
+const { props } = usePage()
+const user = props.auth?.user || {}
 </script>
 
 <template>
@@ -39,12 +35,27 @@ const props = defineProps({
           <!-- Right-side dropdown -->
           <div class="dropdown">
             <button
-              class="btn btn-light dropdown-toggle"
-              data-bs-toggle="dropdown"
+              class="btn btn-light dropdown-toggle d-flex align-items-center"
               type="button"
               id="profileDropdown"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
             >
-              <i class="bi bi-person-circle me-1"></i> {{ props.user?.user_name || 'Profile' }}
+              <img
+                v-if="user.avatar"
+                :src="user.avatar"
+                alt="Avatar"
+                class="rounded-circle me-2"
+                style="width: 32px; height: 32px; object-fit: cover;"
+              />
+              <img
+                v-else
+                src="https://ui-avatars.com/api/?name=N%2FA&background=ddd&color=555"
+                alt="No Avatar"
+                class="rounded-circle me-2"
+                style="width: 32px; height: 32px; object-fit: cover;"
+              />
+              <span>{{ user.user_name || 'User' }}</span>
             </button>
             <ul class="dropdown-menu dropdown-menu-end">
               <li><Link class="dropdown-item" :href="route('user.profile.index')"><i class="bi bi-person-lines-fill"></i> Profile</Link></li>

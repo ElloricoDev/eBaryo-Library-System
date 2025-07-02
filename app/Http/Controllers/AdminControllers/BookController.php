@@ -44,7 +44,9 @@ class BookController extends Controller
             $validated['cover_image'] = '/storage/' . $coverPath;
         }
         if ($request->hasFile('ebook_file')) {
-            $ebookPath = $request->file('ebook_file')->store('ebooks', 'public');
+            $sanitizedTitle = preg_replace('/[^A-Za-z0-9_\-]/', '_', $request->title);
+            $filename = $sanitizedTitle . '_' . time() . '.' . $request->file('ebook_file')->getClientOriginalExtension();
+            $ebookPath = $request->file('ebook_file')->storeAs('ebooks', $filename, 'public');
             $validated['ebook_file'] = '/storage/' . $ebookPath;
         }
 
@@ -97,7 +99,9 @@ class BookController extends Controller
             if ($book->ebook_file && file_exists(public_path(str_replace('/storage/', 'storage/', $book->ebook_file)))) {
                 @unlink(public_path(str_replace('/storage/', 'storage/', $book->ebook_file)));
             }
-            $ebookPath = $request->file('ebook_file')->store('ebooks', 'public');
+            $sanitizedTitle = preg_replace('/[^A-Za-z0-9_\-]/', '_', $request->title);
+            $filename = $sanitizedTitle . '_' . time() . '.' . $request->file('ebook_file')->getClientOriginalExtension();
+            $ebookPath = $request->file('ebook_file')->storeAs('ebooks', $filename, 'public');
             $validated['ebook_file'] = '/storage/' . $ebookPath;
         }
 

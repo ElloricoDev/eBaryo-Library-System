@@ -45,7 +45,6 @@ const user = props.user
           <span v-if="user.email_verified_at" class="text-success">Verified</span>
           <span v-else class="text-danger">Not Verified</span>
         </p>
-        <p><strong><i class="bi bi-person-badge"></i> Role:</strong> {{ user.role || 'N/A' }}</p>
         <div class="mb-3">
           <label class="form-label fw-bold"><i class="bi bi-mortarboard"></i> Student:</label>
           <span>{{ user.student === 'yes' ? 'Yes' : 'No' }}</span>
