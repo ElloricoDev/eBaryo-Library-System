@@ -26,7 +26,7 @@ function reportBook() {
   <div class="container py-4">
     <div class="mb-3">
       <Link :href="route('books.index')" class="btn btn-outline-secondary">
-        <i class="bi bi-arrow-left"></i> Back to Books
+        <i class="bi bi-arrow-left"></i> Back
       </Link>
     </div>
     <div class="row">

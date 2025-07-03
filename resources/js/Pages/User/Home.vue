@@ -1,38 +1,54 @@
 <script setup>
 import UserLayout from '@/Layouts/UserLayout.vue';
 import { Head, usePage, Link } from '@inertiajs/vue3';
+import BookCard from '@/Components/BookCard.vue';
+import { ref, onMounted, onUnmounted, computed } from 'vue';
 const { props } = usePage();
 const books = props.books || [];
+const continueReading = props.continueReading || null;
+const search = ref('');
+const filteredBooks = computed(() => {
+  if (!search.value) return books;
+  return books.filter(book =>
+    (book.title && book.title.toLowerCase().includes(search.value.toLowerCase())) ||
+    (book.author && book.author.toLowerCase().includes(search.value.toLowerCase()))
+  );
+});
+const handleSearch = (e) => {
+  search.value = e.detail;
+};
+onMounted(() => {
+  window.addEventListener('user-search', handleSearch);
+});
+onUnmounted(() => {
+  window.removeEventListener('user-search', handleSearch);
+});
 </script>
 
 <template>
    <Head title="Home"/>
    <UserLayout>
-    <h1>Welcome back!</h1>
-    <p>Browse the latest books from your barangay library.</p>
-    <div class="row mt-4">
-      <div v-for="book in books" :key="book.id" class="col-md-4 mb-4">
-        <div class="card h-100">
-          <div class="card-body d-flex flex-column">
-            <h5 class="card-title">{{ book.title }}</h5>
-            <p class="card-text mb-2"><strong>Author:</strong> {{ book.author || 'Unknown' }}</p>
-            <div class="mt-auto d-flex flex-wrap gap-2">
-              <Link :href="book.ebook_file" class="btn btn-primary btn-sm" target="_blank">
-                <i class="bi bi-book"></i> Read
-              </Link>
-              <Link :href="route('books.view', { id: book.id })" class="btn btn-outline-secondary btn-sm">
-                <i class="bi bi-eye"></i> View Details
-              </Link>
-              <button class="btn btn-outline-success btn-sm" @click="() => $emit('save', book)">
-                <i class="bi bi-bookmark"></i> Saved
-              </button>
-              <button class="btn btn-outline-danger btn-sm" @click="() => $emit('report', book)">
-                <i class="bi bi-flag"></i> Report
-              </button>
-            </div>
-          </div>
-        </div>
+    <div v-if="continueReading && continueReading.book" class="alert alert-info d-flex align-items-center justify-content-between mb-4">
+      <div>
+        <strong>Continue Reading:</strong> {{ continueReading.book.title }}
+        <span v-if="continueReading.last_percent">({{ Math.round(continueReading.last_percent * 100) }}% read)</span>
       </div>
+      <Link :href="route('books.read', { id: continueReading.book.id })" class="btn btn-primary btn-sm">
+        Resume
+      </Link>
+    </div>
+    <div class="row mt-4">
+      <template v-if="filteredBooks.length > 0">
+        <div v-for="book in filteredBooks" :key="book.id" class="col-md-4 mb-4">
+          <BookCard :book="{...book, from: 'home'}" />
+        </div>
+      </template>
+      <template v-else>
+        <div class="col-12 text-center text-muted py-5">
+          <i class="bi bi-search" style="font-size: 2rem;"></i>
+          <div>No results found.</div>
+        </div>
+      </template>
     </div>
    </UserLayout>
 </template>

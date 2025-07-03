@@ -13,6 +13,7 @@ class ReadingLog extends Model
         'user_id',
         'book_id',
         'read_at',
+        'last_percent',
     ];
 
     public function user()

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('book_id')->constrained()->onDelete('cascade');
             $table->timestamp('read_at');
+            $table->float('last_percent')->nullable();
             $table->timestamps();
         });
     }

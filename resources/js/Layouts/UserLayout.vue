@@ -1,7 +1,20 @@
 <script setup>
-import { Link, usePage } from '@inertiajs/vue3'
+import { Link, usePage, router } from '@inertiajs/vue3'
+import { ref, onMounted, onUnmounted, watch } from 'vue'
 const { props } = usePage()
 const user = props.auth?.user || {}
+const searchQuery = ref('')
+const submitSearch = () => {
+  // Always emit, even if empty, to allow reset
+  window.dispatchEvent(new CustomEvent('user-search', { detail: searchQuery.value }))
+}
+
+// Watch for input clearing
+watch(searchQuery, (val) => {
+  if (val === '') {
+    window.dispatchEvent(new CustomEvent('user-search', { detail: '' }))
+  }
+})
 </script>
 
 <template>
@@ -31,6 +44,12 @@ const user = props.auth?.user || {}
               <Link class="nav-link" href="/saved"><i class="bi bi-bookmark-heart"></i> Saved</Link>
             </li>
           </ul>
+
+          <!-- Search bar -->
+          <form class="d-flex me-3" @submit.prevent="submitSearch">
+            <input v-model="searchQuery" class="form-control me-2" type="search" placeholder="Search books..." aria-label="Search">
+            <button class="btn btn-outline-primary" type="submit"><i class="bi bi-search"></i></button>
+          </form>
 
           <!-- Right-side dropdown -->
           <div class="dropdown">

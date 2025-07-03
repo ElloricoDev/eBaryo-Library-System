@@ -34,6 +34,7 @@ Route::middleware('auth', 'user')->group(function () {
     Route::get('/books',[BookController::class, 'index'])->name('books.index');
     Route::get('/books/{id}', [BookController::class, 'show'])->name('books.view');
     Route::get('/books/{id}/read', [BookController::class, 'read'])->name('books.read');
+    Route::post('/books/{id}/progress', [\App\Http\Controllers\UserControllers\BookController::class, 'saveProgress'])->name('books.saveProgress');
 
     //Feedback Routes
     Route::get('/feedback', [FeedbackController::class, 'create'])->name('feedback.create');
