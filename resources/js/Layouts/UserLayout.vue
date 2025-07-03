@@ -60,6 +60,9 @@ const user = props.auth?.user || {}
             <ul class="dropdown-menu dropdown-menu-end">
               <li><Link class="dropdown-item" :href="route('user.profile.index')"><i class="bi bi-person-lines-fill"></i> Profile</Link></li>
               <li><hr class="dropdown-divider" /></li>
+              <li><Link class="dropdown-item" :href="route('feedback.create')"><i class="bi bi-chat-dots"></i> Feedback</Link></li>
+              <li><Link class="dropdown-item" :href="route('feedback.my')"><i class="bi bi-list-check"></i> My Feedback</Link></li>
+              <li><hr class="dropdown-divider" /></li>
               <li><Link class="dropdown-item text-danger" :href="route('logout')" method="post"><i class="bi bi-box-arrow-right"></i> Logout</Link></li>
             </ul>
           </div>

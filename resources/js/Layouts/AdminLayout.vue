@@ -23,7 +23,13 @@ const user = props.auth?.user || {}
           <Link class="nav-link" :href="route('admin.books.index')"><i class="bi bi-book"></i> Books</Link>
         </li>
         <li class="nav-item">
-          <Link class="nav-link" href="#"><i class="bi bi-gear"></i> Settings</Link>
+          <Link class="nav-link" :href="route('admin.categories.index')"><i class="bi bi-folder"></i> Category</Link>
+        </li>
+        <li class="nav-item">
+          <Link class="nav-link" :href="route('admin.settings.index')"><i class="bi bi-gear"></i> Settings</Link>
+        </li>
+        <li class="nav-item">
+          <Link class="nav-link" :href="route('admin.feedback.index')"><i class="bi bi-chat-dots"></i> Feedback</Link>
         </li>
       </ul>
     </nav>
@@ -70,7 +76,7 @@ const user = props.auth?.user || {}
           </button>
           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
             <li><Link class="dropdown-item" :href="route('admin.profile.index')"><i class="bi bi-person"></i> Profile</Link></li>
-            <li><Link class="dropdown-item" href="#"><i class="bi bi-gear"></i> Settings</Link></li>
+            <li><Link class="dropdown-item" :href="route('admin.settings.index')"><i class="bi bi-gear"></i> Settings</Link></li>
             <li><hr class="dropdown-divider" /></li>
             <li><Link class="dropdown-item text-danger" :href="route('logout')" method="post"><i class="bi bi-box-arrow-right"></i> Logout</Link></li>
           </ul>

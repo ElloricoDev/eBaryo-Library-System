@@ -3,14 +3,24 @@ import GuestLayout from '@/Layouts/GuestLayout.vue'
 import { useForm, Link } from '@inertiajs/vue3'
 
 const form = useForm({
-  name: '',
+  user_name: '',
   email: '',
   password: '',
   password_confirmation: ''
 })
 
 const submit = () => {
-  form.post(route('register'))
+  form.post(route('register'), {
+    preserveScroll: true,
+    onSuccess: () => {
+      form.reset();
+    },
+    onError: (errors) => {
+      Object.keys(errors).forEach((field) => {
+        form[field] = '';
+      });
+    }
+  });
 }
 </script>
 
@@ -28,16 +38,15 @@ const submit = () => {
           <div class="mb-3">
             <label for="name" class="form-label"><i class="bi bi-person"></i> Full Name</label>
             <input
-              v-model="form.name"
+              v-model="form.user_name"
               type="text"
               id="name"
               class="form-control"
-              :class="{ 'is-invalid': form.errors.name }"
-              required
+              :class="{ 'is-invalid': form.errors.user_name }"
               autofocus
             />
-            <div v-if="form.errors.name" class="invalid-feedback">
-              {{ form.errors.name }}
+            <div v-if="form.errors.user_name" class="invalid-feedback">
+              {{ form.errors.user_name }}
             </div>
           </div>
 
@@ -50,7 +59,6 @@ const submit = () => {
               id="email"
               class="form-control"
               :class="{ 'is-invalid': form.errors.email }"
-              required
             />
             <div v-if="form.errors.email" class="invalid-feedback">
               {{ form.errors.email }}
@@ -66,7 +74,6 @@ const submit = () => {
               id="password"
               class="form-control"
               :class="{ 'is-invalid': form.errors.password }"
-              required
             />
             <div v-if="form.errors.password" class="invalid-feedback">
               {{ form.errors.password }}
@@ -81,7 +88,6 @@ const submit = () => {
               type="password"
               id="password_confirmation"
               class="form-control"
-              required
             />
           </div>
 

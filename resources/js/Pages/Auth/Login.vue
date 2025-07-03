@@ -9,7 +9,15 @@ const form = useForm({
 })
 
 const submit = () => {
-  form.post(route('login'))
+  form.post(route('login'), {
+    preserveScroll: true,
+    onSuccess: () => {
+      form.reset();
+    },
+    onError: () => {
+      form.reset('password');
+    }
+  });
 }
 </script>
 
@@ -64,12 +72,14 @@ const submit = () => {
           <!-- Remember Me -->
           <div class="mb-3 form-check">
             <input
-              v-model="form.remember"
-              type="checkbox"
               class="form-check-input"
+              type="checkbox"
               id="remember"
+              v-model="form.remember"
             />
-            <label class="form-check-label" for="remember">Remember me</label>
+            <label class="form-check-label" for="remember">
+              Remember Me
+            </label>
           </div>
 
           <!-- Submit -->

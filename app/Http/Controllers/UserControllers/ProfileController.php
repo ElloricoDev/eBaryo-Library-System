@@ -82,4 +82,31 @@ class ProfileController extends Controller
 
         return redirect(route('welcome'))->with('message', 'Account deleted successfully.');
     }
+
+    public function showCompleteForm()
+    {
+        return inertia('User/Profile/Complete');
+    }
+
+    public function complete(Request $request)
+    {
+        $request->validate([
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'nullable|string|max:255',
+            'middle_name' => 'nullable|string|max:255',
+            'contact_number' => 'nullable|string|max:255',
+            'address' => 'nullable|string|max:255',
+        ]);
+
+        $user = auth()->user();
+        $user->first_name = $request->first_name;
+        $user->last_name = $request->last_name;
+        $user->middle_name = $request->middle_name;
+        $user->contact_number = $request->contact_number;
+        $user->address = $request->address;
+        $user->profile_completed = true;
+        $user->save();
+
+        return redirect()->route('dashboard')->with('message', 'Profile completed!');
+    }
 }
