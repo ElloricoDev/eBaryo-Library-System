@@ -18,43 +18,51 @@ const fileExt = computed(() => {
 <template>
   <div class="container py-4">
     <div class="d-flex align-items-center mb-4">
-      <Link :href="route('admin.books.index')" class="btn btn-secondary me-3">
+      <Link :href="route('admin.books.index')" class="btn btn-success me-3 shadow-sm rounded-pill px-4 py-2 fw-semibold">
         <i class="bi bi-arrow-left"></i> Back
       </Link>
-      <h1 class="fs-3 fw-bold mb-0"><i class="bi bi-eye"></i> Book Details</h1>
+      <h1 class="fs-3 fw-bold mb-0 text-success"><i class="bi bi-eye"></i> Book Details</h1>
     </div>
-    <div class="card mb-4">
+    <div class="card mb-4 border-success shadow rounded-4">
       <div class="row g-0">
-        <div class="col-md-3 d-flex align-items-center justify-content-center p-3">
-          <img v-if="book.cover_image" :src="book.cover_image" alt="Cover" class="img-fluid rounded border" style="max-height: 200px; object-fit: contain;" />
-          <div v-else class="text-muted"><i class="bi bi-image"></i> No Cover</div>
+        <div class="col-md-3 d-flex align-items-center justify-content-center p-3 bg-light rounded-start-4">
+          <img v-if="book.cover_image" :src="book.cover_image" alt="Cover" class="img-fluid rounded border border-success shadow-sm" style="max-height: 200px; object-fit: contain; background: #fff;" />
+          <div v-else class="text-muted text-center"><i class="bi bi-image fs-1"></i><br>No Cover</div>
         </div>
         <div class="col-md-9">
           <div class="card-body">
-            <h3 class="card-title mb-2"><i class="bi bi-book"></i> {{ book.title || 'N/A' }}</h3>
-            <p class="mb-1"><strong><i class="bi bi-person"></i> Author:</strong> {{ book.author || 'N/A' }}</p>
-            <p class="mb-1"><strong><i class="bi bi-tags"></i> Category:</strong> {{ book.category ? book.category.name : 'N/A' }}</p>
-            <p class="mb-1"><strong><i class="bi bi-building"></i> Publisher:</strong> {{ book.publisher || 'N/A' }}</p>
-            <p class="mb-1"><strong><i class="bi bi-translate"></i> Language:</strong> {{ book.language || 'N/A' }}</p>
-            <p class="mb-1"><strong><i class="bi bi-upc"></i> ISBN:</strong> {{ book.isbn || 'N/A' }}</p>
-            <p class="mb-1"><strong><i class="bi bi-calendar"></i> Published Year:</strong> {{ book.published_year || 'N/A' }}</p>
-            <p class="mb-1"><strong><i class="bi bi-info-circle"></i> Status:</strong> <span :class="book.status === 'active' ? 'text-success' : 'text-danger'">{{ book.status ? (book.status.charAt(0).toUpperCase() + book.status.slice(1)) : 'N/A' }}</span></p>
-            <p class="mb-2"><strong><i class="bi bi-card-text"></i> Description:</strong> {{ book.description || 'N/A' }}</p>
-            <p class="mb-1"><strong><i class="bi bi-file-earmark"></i> Ebook File:</strong>
+            <h3 class="card-title mb-2 text-success"><i class="bi bi-book"></i> {{ book.title || 'N/A' }}</h3>
+            <div class="row mb-1">
+              <div class="col-6"><strong><i class="bi bi-person"></i> Author:</strong> {{ book.author || 'N/A' }}</div>
+              <div class="col-6"><strong><i class="bi bi-tags"></i> Category:</strong> {{ book.category ? book.category.name : 'N/A' }}</div>
+            </div>
+            <div class="row mb-1">
+              <div class="col-6"><strong><i class="bi bi-building"></i> Publisher:</strong> {{ book.publisher || 'N/A' }}</div>
+              <div class="col-6"><strong><i class="bi bi-translate"></i> Language:</strong> {{ book.language || 'N/A' }}</div>
+            </div>
+            <div class="row mb-1">
+              <div class="col-6"><strong><i class="bi bi-upc"></i> ISBN:</strong> {{ book.isbn || 'N/A' }}</div>
+              <div class="col-6"><strong><i class="bi bi-calendar"></i> Published Year:</strong> {{ book.published_year || 'N/A' }}</div>
+            </div>
+            <div class="row mb-1">
+              <div class="col-6"><strong><i class="bi bi-info-circle"></i> Status:</strong> <span :class="book.status === 'active' ? 'text-success fw-bold' : 'text-danger fw-bold'">{{ book.status ? (book.status.charAt(0).toUpperCase() + book.status.slice(1)) : 'N/A' }}</span></div>
+            </div>
+            <div class="mb-2"><strong><i class="bi bi-card-text"></i> Description:</strong> <span class="text-secondary">{{ book.description || 'N/A' }}</span></div>
+            <div class="mb-1"><strong><i class="bi bi-file-earmark"></i> Ebook File:</strong>
               <span v-if="book.ebook_file">
-                <a :href="book.ebook_file" target="_blank"><i class="bi bi-file-earmark"></i> {{ book.ebook_file }}</a>
+                <a :href="book.ebook_file" target="_blank" class="link-success fw-semibold"><i class="bi bi-file-earmark"></i> {{ book.ebook_file }}</a>
               </span>
-              <span v-else>N/A</span>
-            </p>
+              <span v-else class="text-muted">N/A</span>
+            </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="card">
-      <div class="card-header"><i class="bi bi-file-earmark"></i> Read Ebook</div>
-      <div class="card-body">
+    <div class="card border-success shadow rounded-4">
+      <div class="card-header bg-success text-white rounded-top-4"><i class="bi bi-file-earmark"></i> Read Ebook</div>
+      <div class="card-body bg-light rounded-bottom-4">
         <div v-if="book.ebook_file && fileExt === 'pdf'">
-          <iframe :src="book.ebook_file" width="100%" height="700px" style="border:none;"></iframe>
+          <iframe :src="book.ebook_file" width="100%" height="700px" style="border:none; border-radius: 1rem; box-shadow: 0 2px 16px rgba(0,128,0,0.08);"></iframe>
         </div>
         <!--
         <div v-else-if="book.ebook_file && fileExt === 'epub'">
@@ -64,12 +72,34 @@ const fileExt = computed(() => {
         <div v-else>
           <p>
             <span v-if="book.ebook_file">
-              <i class="bi bi-file-earmark"></i> Unsupported file format. <a :href="book.ebook_file" target="_blank" class="btn btn-primary"><i class="bi bi-download"></i> Download</a>
+              <i class="bi bi-file-earmark"></i> Unsupported file format. <a :href="book.ebook_file" target="_blank" class="btn btn-outline-success ms-2"><i class="bi bi-download"></i> Download</a>
             </span>
-            <span v-else>N/A</span>
+            <span v-else class="text-muted">N/A</span>
           </p>
         </div>
       </div>
     </div>
   </div>
 </template>
+
+<style scoped>
+.card {
+  border-radius: 1.25rem;
+  box-shadow: 0 2px 16px rgba(0,128,0,0.08);
+}
+.card-header {
+  font-weight: 600;
+  font-size: 1.1rem;
+  letter-spacing: 0.5px;
+}
+.btn-success {
+  transition: background 0.2s, box-shadow 0.2s;
+}
+.btn-success:hover, .btn-success:focus {
+  background: #218838;
+  box-shadow: 0 2px 8px rgba(40,167,69,0.15);
+}
+.link-success {
+  text-decoration: underline;
+}
+</style>

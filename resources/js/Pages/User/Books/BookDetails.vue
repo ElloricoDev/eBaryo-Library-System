@@ -25,42 +25,42 @@ function reportBook() {
   <Head :title="book.title" />
   <div class="container py-4">
     <div class="mb-3">
-      <Link :href="route('books.index')" class="btn btn-outline-secondary">
+      <Link :href="route('books.index')" class="btn btn-outline-success">
         <i class="bi bi-arrow-left"></i> Back
       </Link>
     </div>
     <div class="row">
       <div class="col-md-4">
-        <img v-if="book.cover_image" :src="book.cover_image" :alt="book.title" class="img-fluid rounded shadow mb-3" />
-        <div v-else class="bg-secondary text-white d-flex align-items-center justify-content-center rounded mb-3" style="height: 300px;">
+        <img v-if="book.cover_image" :src="book.cover_image" :alt="book.title" class="img-fluid rounded shadow mb-3 border border-success book-cover-img" />
+        <div v-else class="bg-success bg-opacity-10 text-success d-flex align-items-center justify-content-center rounded mb-3 border border-success book-cover-img" style="height: 300px;">
           <span>No Cover Image</span>
         </div>
         <div class="d-flex flex-wrap gap-2 mb-2">
           <Link
             v-if="book.ebook_file"
             :href="route('books.read', { id: book.id, from: 'details' })"
-            class="btn btn-primary w-100"
+            class="btn btn-success w-100 shadow-sm"
           >
             <i class="bi bi-book"></i> Read
           </Link>
-          <button class="btn btn-outline-success w-100" @click="saveBook">
+          <button class="btn btn-outline-success w-100 shadow-sm" @click="saveBook">
             <i class="bi bi-bookmark"></i> Save
           </button>
-          <button class="btn btn-outline-danger w-100" @click="reportBook">
+          <button class="btn btn-outline-danger w-100 shadow-sm" @click="reportBook">
             <i class="bi bi-flag"></i> Report
           </button>
         </div>
       </div>
       <div class="col-md-8">
-        <h2>{{ book.title }}</h2>
-        <p><strong>Author:</strong> {{ book.author }}</p>
-        <p><strong>ISBN:</strong> {{ book.isbn || 'N/A' }}</p>
-        <p><strong>Published Year:</strong> {{ book.published_year || 'N/A' }}</p>
-        <p><strong>Publisher:</strong> {{ book.publisher || 'N/A' }}</p>
-        <p><strong>Language:</strong> {{ book.language || 'N/A' }}</p>
-        <p><strong>Category:</strong> {{ book.category?.name || 'N/A' }}</p>
-        <p><strong>Status:</strong> <span :class="book.status === 'active' ? 'text-success' : 'text-danger'">{{ book.status }}</span></p>
-        <p><strong>Description:</strong></p>
+        <h2 class="text-success fw-bold d-flex align-items-center gap-2 mb-3"><i class="bi bi-journal-bookmark"></i> {{ book.title }}</h2>
+        <p><strong class="text-success">Author:</strong> {{ book.author }}</p>
+        <p><strong class="text-success">ISBN:</strong> {{ book.isbn || 'N/A' }}</p>
+        <p><strong class="text-success">Published Year:</strong> {{ book.published_year || 'N/A' }}</p>
+        <p><strong class="text-success">Publisher:</strong> {{ book.publisher || 'N/A' }}</p>
+        <p><strong class="text-success">Language:</strong> {{ book.language || 'N/A' }}</p>
+        <p><strong class="text-success">Category:</strong> {{ book.category?.name || 'N/A' }}</p>
+        <p><strong class="text-success">Status:</strong> <span :class="book.status === 'active' ? 'text-success fw-semibold' : 'text-danger fw-semibold'">{{ book.status }}</span></p>
+        <p><strong class="text-success">Description:</strong></p>
         <div class="mb-3" v-html="book.description || '<em>No description provided.</em>'"></div>
         <p class="text-muted"><small>Added: {{ new Date(book.created_at).toLocaleString() }}</small></p>
         <p class="text-muted"><small>Last Updated: {{ new Date(book.updated_at).toLocaleString() }}</small></p>
@@ -71,4 +71,12 @@ function reportBook() {
       <EpubReader :url="book.ebook_file" />
     </div>
   </div>
-</template> 
+</template>
+
+<style scoped>
+.book-cover-img {
+  border-width: 2px;
+  border-radius: 1rem;
+  background: #e9fbe9;
+}
+</style> 

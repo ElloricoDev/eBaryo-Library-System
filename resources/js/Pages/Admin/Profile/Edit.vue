@@ -60,58 +60,60 @@ function onAvatarChange(e) {
 
   <div class="container py-4">
     <div class="d-flex align-items-center mb-4">
-      <Link :href="route('admin.profile.index')" class="btn btn-secondary me-3">
+      <Link :href="route('admin.profile.index')" class="btn btn-outline-success me-3">
         <i class="bi bi-arrow-left"></i> Back
       </Link>
-      <h1 class="fs-3 fw-bold mb-0">Edit Profile</h1>
+      <h1 class="fs-3 fw-bold mb-0 text-success d-flex align-items-center gap-2">
+        <i class="bi bi-pencil-square"></i> Edit Profile
+      </h1>
     </div>
 
-    <form @submit.prevent="submit" enctype="multipart/form-data">
+    <form @submit.prevent="submit" enctype="multipart/form-data" class="card border-success shadow admin-profile-edit-card p-4">
       <div class="row g-3">
         <div class="col-md-6">
-          <label class="form-label"><i class="bi bi-person"></i> User Name</label>
+          <label class="form-label text-success"><i class="bi bi-person"></i> User Name</label>
           <input v-model="form.user_name" type="text" class="form-control" />
           <div v-if="form.errors.user_name" class="text-danger">{{ form.errors.user_name }}</div>
         </div>
 
         <div class="col-md-4">
-          <label class="form-label"><i class="bi bi-person"></i> First Name</label>
+          <label class="form-label text-success"><i class="bi bi-person"></i> First Name</label>
           <input v-model="form.first_name" type="text" class="form-control" />
           <div v-if="form.errors.first_name" class="text-danger">{{ form.errors.first_name }}</div>
         </div>
 
         <div class="col-md-4">
-          <label class="form-label"><i class="bi bi-person"></i> Middle Name</label>
+          <label class="form-label text-success"><i class="bi bi-person"></i> Middle Name</label>
           <input v-model="form.middle_name" type="text" class="form-control" />
           <div v-if="form.errors.middle_name" class="text-danger">{{ form.errors.middle_name }}</div>
         </div>
 
         <div class="col-md-4">
-          <label class="form-label"><i class="bi bi-person"></i> Last Name</label>
+          <label class="form-label text-success"><i class="bi bi-person"></i> Last Name</label>
           <input v-model="form.last_name" type="text" class="form-control" />
           <div v-if="form.errors.last_name" class="text-danger">{{ form.errors.last_name }}</div>
         </div>
 
         <div class="col-md-6">
-          <label class="form-label"><i class="bi bi-telephone"></i> Contact Number</label>
+          <label class="form-label text-success"><i class="bi bi-telephone"></i> Contact Number</label>
           <input v-model="form.contact_number" type="text" class="form-control" />
           <div v-if="form.errors.contact_number" class="text-danger">{{ form.errors.contact_number }}</div>
         </div>
 
         <div class="col-md-6">
-          <label class="form-label"><i class="bi bi-geo-alt"></i> Address</label>
+          <label class="form-label text-success"><i class="bi bi-geo-alt"></i> Address</label>
           <input v-model="form.address" type="text" class="form-control" />
           <div v-if="form.errors.address" class="text-danger">{{ form.errors.address }}</div>
         </div>
 
         <div class="col-md-6">
-          <label class="form-label"><i class="bi bi-envelope"></i> Email</label>
+          <label class="form-label text-success"><i class="bi bi-envelope"></i> Email</label>
           <input v-model="form.email" type="email" class="form-control" />
           <div v-if="form.errors.email" class="text-danger">{{ form.errors.email }}</div>
         </div>
 
         <div class="col-md-6">
-          <label class="form-label"><i class="bi bi-mortarboard"></i> Student</label>
+          <label class="form-label text-success"><i class="bi bi-mortarboard"></i> Student</label>
           <select v-model="form.student" class="form-control">
             <option value="yes">Yes</option>
             <option value="no">No</option>
@@ -120,7 +122,7 @@ function onAvatarChange(e) {
         </div>
 
         <div class="col-md-6">
-          <label class="form-label"><i class="bi bi-image"></i> Avatar</label>
+          <label class="form-label text-success"><i class="bi bi-image"></i> Avatar</label>
           <input
             type="file"
             class="form-control"
@@ -131,19 +133,32 @@ function onAvatarChange(e) {
 
           <!-- Preview -->
           <div v-if="avatarPreview" class="mt-2">
-            <img :src="avatarPreview" alt="Avatar Preview" class="rounded border" style="width: 80px; height: 80px; object-fit: cover;" />
+            <img :src="avatarPreview" alt="Avatar Preview" class="rounded border border-success" style="width: 80px; height: 80px; object-fit: cover;" />
           </div>
         </div>
       </div>
 
-      <div class="mt-4">
-        <button type="submit" class="btn btn-primary" :disabled="form.processing">
+      <div class="mt-4 d-flex gap-2">
+        <button type="submit" class="btn btn-success shadow-sm" :disabled="form.processing">
           <i class="bi bi-save"></i> {{ form.processing ? 'Saving...' : 'Update Profile' }}
         </button>
-        <Link :href="route('admin.profile.index')" class="btn btn-secondary ms-2">
+        <Link :href="route('admin.profile.index')" class="btn btn-outline-success">
           <i class="bi bi-arrow-left"></i> Cancel
         </Link>
       </div>
     </form>
   </div>
 </template>
+
+<style scoped>
+.admin-profile-edit-card {
+  border-width: 2px;
+  border-radius: 1.25rem;
+  margin-bottom: 32px;
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+.admin-profile-edit-card:focus-within, .admin-profile-edit-card:hover {
+  box-shadow: 0 0.5rem 1.5rem rgba(25, 135, 84, 0.15);
+  border-color: #157347;
+}
+</style>

@@ -43,22 +43,36 @@ const submit = () => {
 </script>
 
 <template>
-  <div class="card mb-4">
-    <div class="card-header"><i class="bi bi-envelope-check"></i> Verify Email</div>
+  <div class="card mb-4 border-success shadow verify-email-card">
+    <div class="card-header bg-success text-white d-flex align-items-center gap-2">
+      <i class="bi bi-envelope-check"></i> Verify Email
+    </div>
     <div class="card-body">
       <div v-if="isVerified" class="alert alert-success mb-3">
         Your email is already verified.
       </div>
       <form @submit.prevent="submit">
         <div v-if="!isGoogleUser && !isVerified" class="mb-3">
-          <label class="form-label"><i class="bi bi-key"></i> Password</label>
+          <label class="form-label text-success"><i class="bi bi-key"></i> Password</label>
           <input v-model="form.password" type="password" class="form-control" :disabled="isVerified" />
           <div v-if="form.errors.password" class="text-danger">{{ form.errors.password }}</div>
         </div>
-        <button type="submit" class="btn btn-primary" :disabled="submitting || form.processing || isVerified">
+        <button type="submit" class="btn btn-success w-100 shadow-sm" :disabled="submitting || form.processing || isVerified">
           <i class="bi bi-send"></i> {{ submitting || form.processing ? 'Sending...' : 'Send Verification Email' }}
         </button>
       </form>
     </div>
   </div>
-</template> 
+</template>
+
+<style scoped>
+.verify-email-card {
+  border-width: 2px;
+  border-radius: 1.25rem;
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+.verify-email-card:focus-within, .verify-email-card:hover {
+  box-shadow: 0 0.5rem 1.5rem rgba(25, 135, 84, 0.15);
+  border-color: #157347;
+}
+</style> 

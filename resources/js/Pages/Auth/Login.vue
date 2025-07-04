@@ -24,16 +24,16 @@ const submit = () => {
 <template>
   <Head title="Login" />
   <GuestLayout>
-    <div class="card shadow-sm" style="max-width: 400px; width: 100%;">
+    <div class="card shadow login-card border-success mx-auto" style="max-width: 400px; width: 100%;">
       <div class="card-body">
-        <h1 class="mb-4 text-center"><i class="bi bi-box-arrow-in-right"></i> Login</h1>
-
-        
+        <h1 class="mb-4 text-center text-success-emphasis">
+          <i class="bi bi-box-arrow-in-right me-2 text-success"></i>Login
+        </h1>
 
         <form @submit.prevent="submit">
           <!-- Email -->
           <div class="mb-3">
-            <label for="email" class="form-label"><i class="bi bi-person"></i> Email</label>
+            <label for="email" class="form-label text-success"><i class="bi bi-person"></i> Email</label>
             <input
               v-model="form.email"
               type="email"
@@ -50,7 +50,7 @@ const submit = () => {
 
           <!-- Password -->
           <div class="mb-3">
-            <label for="password" class="form-label"><i class="bi bi-lock"></i> Password</label>
+            <label for="password" class="form-label text-success"><i class="bi bi-lock"></i> Password</label>
             <input
               v-model="form.password"
               type="password"
@@ -63,7 +63,7 @@ const submit = () => {
               {{ form.errors.password }}
             </div>
             <div class="text-end mt-1">
-              <Link :href="route('password.request')" class="d-block text-center mt-3">
+              <Link :href="route('password.request')" class="d-block text-success-emphasis small mt-3">
                 <i class="bi bi-envelope"></i> Forgot password?
               </Link>
             </div>
@@ -72,32 +72,32 @@ const submit = () => {
           <!-- Remember Me -->
           <div class="mb-3 form-check">
             <input
-              class="form-check-input"
+              class="form-check-input border-success"
               type="checkbox"
               id="remember"
               v-model="form.remember"
             />
-            <label class="form-check-label" for="remember">
+            <label class="form-check-label text-success" for="remember">
               Remember Me
             </label>
           </div>
 
           <!-- Submit -->
           <div class="d-grid mb-3">
-            <button type="submit" class="btn btn-primary w-100" :disabled="form.processing">
+            <button type="submit" class="btn btn-success w-100 shadow-sm" :disabled="form.processing">
               <span v-if="!form.processing"><i class="bi bi-box-arrow-in-right"></i> Login</span>
               <span v-else>Logging in...</span>
             </button>
           </div>
-          <div class=" d-grid">
-          <a :href="route('google.redirect')" class="btn btn-outline-danger w-100 mb-2">
-            <i class="bi bi-google"></i> Login with Google
-          </a>
-        </div>
+          <div class="d-grid">
+            <a :href="route('google.redirect')" class="btn btn-outline-success w-100 mb-2">
+              <i class="bi bi-google"></i> Login with Google
+            </a>
+          </div>
         </form>
         <div class="text-center mt-3">
           <span>Don't have an account?</span>
-          <Link :href="route('register')" class="d-block text-center mt-2">
+          <Link :href="route('register')" class="d-block text-success text-center mt-2">
             <i class="bi bi-person-plus"></i> Register
           </Link>
         </div>
@@ -105,3 +105,17 @@ const submit = () => {
     </div>
   </GuestLayout>
 </template>
+
+<style scoped>
+.login-card {
+  border-width: 2px;
+  border-radius: 1.25rem;
+  margin-top: 48px;
+  margin-bottom: 48px;
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+.login-card:focus-within, .login-card:hover {
+  box-shadow: 0 0.5rem 1.5rem rgba(25, 135, 84, 0.15);
+  border-color: #157347;
+}
+</style>

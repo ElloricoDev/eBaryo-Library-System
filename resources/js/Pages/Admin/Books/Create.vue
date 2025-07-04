@@ -74,45 +74,45 @@ const submit = () => {
 <template>
   <div class="container py-4">
     <div class="d-flex align-items-center mb-4">
-      <Link :href="route('admin.books.index')" class="btn btn-secondary me-3">
-        ← Back
+      <Link :href="route('admin.books.index')" class="btn btn-outline-success me-3">
+        <i class="bi bi-arrow-left"></i> Back
       </Link>
-      <h1 class="fs-3 fw-bold mb-0">Add Book</h1>
+      <h1 class="fs-3 fw-bold mb-0 text-success d-flex align-items-center gap-2"><i class="bi bi-plus-square"></i> Add Book</h1>
     </div>
-    <form @submit.prevent="submit" enctype="multipart/form-data">
+    <form @submit.prevent="submit" enctype="multipart/form-data" class="card border-success shadow admin-book-create-card p-4">
       <div class="row g-3">
         <div class="col-md-6">
-          <label class="form-label"><i class="bi bi-book"></i> Title</label>
+          <label class="form-label text-success"><i class="bi bi-book"></i> Title</label>
           <input v-model="form.title" type="text" class="form-control" />
           <div v-if="form.errors.title" class="text-danger">{{ form.errors.title }}</div>
         </div>
         <div class="col-md-6">
-          <label class="form-label"><i class="bi bi-person"></i> Author</label>
+          <label class="form-label text-success"><i class="bi bi-person"></i> Author</label>
           <input v-model="form.author" type="text" class="form-control" />
           <div v-if="form.errors.author" class="text-danger">{{ form.errors.author }}</div>
         </div>
         <div class="col-md-4">
-          <label class="form-label"><i class="bi bi-upc"></i> ISBN</label>
+          <label class="form-label text-success"><i class="bi bi-upc"></i> ISBN</label>
           <input v-model="form.isbn" type="text" class="form-control" />
           <div v-if="form.errors.isbn" class="text-danger">{{ form.errors.isbn }}</div>
         </div>
         <div class="col-md-4">
-          <label class="form-label"><i class="bi bi-calendar"></i> Published Year</label>
+          <label class="form-label text-success"><i class="bi bi-calendar"></i> Published Year</label>
           <input v-model="form.published_year" type="number" class="form-control" />
           <div v-if="form.errors.published_year" class="text-danger">{{ form.errors.published_year }}</div>
         </div>
         <div class="col-md-4">
-          <label class="form-label"><i class="bi bi-building"></i> Publisher</label>
+          <label class="form-label text-success"><i class="bi bi-building"></i> Publisher</label>
           <input v-model="form.publisher" type="text" class="form-control" />
           <div v-if="form.errors.publisher" class="text-danger">{{ form.errors.publisher }}</div>
         </div>
         <div class="col-md-4">
-          <label class="form-label"><i class="bi bi-translate"></i> Language</label>
+          <label class="form-label text-success"><i class="bi bi-translate"></i> Language</label>
           <input v-model="form.language" type="text" class="form-control" />
           <div v-if="form.errors.language" class="text-danger">{{ form.errors.language }}</div>
         </div>
         <div class="col-md-4">
-          <label class="form-label"><i class="bi bi-tags"></i> Category</label>
+          <label class="form-label text-success"><i class="bi bi-tags"></i> Category</label>
           <select v-model="form.category_id" class="form-control">
             <option value="">Select Category</option>
             <option v-for="cat in categories" :key="cat.id" :value="cat.id">{{ cat.name }}</option>
@@ -120,7 +120,7 @@ const submit = () => {
           <div v-if="form.errors.category_id" class="text-danger">{{ form.errors.category_id }}</div>
         </div>
         <div class="col-md-4">
-          <label class="form-label"><i class="bi bi-info-circle"></i> Status</label>
+          <label class="form-label text-success"><i class="bi bi-info-circle"></i> Status</label>
           <select v-model="form.status" class="form-control">
             <option value="active">Active</option>
             <option value="inactive">Inactive</option>
@@ -128,33 +128,46 @@ const submit = () => {
           <div v-if="form.errors.status" class="text-danger">{{ form.errors.status }}</div>
         </div>
         <div class="col-md-12">
-          <label class="form-label"><i class="bi bi-card-text"></i> Description</label>
+          <label class="form-label text-success"><i class="bi bi-card-text"></i> Description</label>
           <textarea v-model="form.description" class="form-control" rows="3"></textarea>
           <div v-if="form.errors.description" class="text-danger">{{ form.errors.description }}</div>
         </div>
         <div class="col-md-6">
-          <label class="form-label"><i class="bi bi-image"></i> Cover Image</label>
+          <label class="form-label text-success"><i class="bi bi-image"></i> Cover Image</label>
           <input type="file" class="form-control" @change="onCoverChange" accept="image/*" />
           <div v-if="form.errors.cover_image" class="text-danger">{{ form.errors.cover_image }}</div>
           <div v-if="coverPreview" class="mt-2">
-            <img :src="coverPreview" alt="Cover Preview" class="rounded border" style="width: 80px; height: 80px; object-fit: cover;" />
+            <img :src="coverPreview" alt="Cover Preview" class="rounded border border-success" style="width: 80px; height: 80px; object-fit: cover;" />
           </div>
         </div>
         <div class="col-md-6">
-          <label class="form-label"><i class="bi bi-file-earmark"></i> Ebook File</label>
+          <label class="form-label text-success"><i class="bi bi-file-earmark"></i> Ebook File</label>
           <input type="file" class="form-control" @change="onEbookChange" accept=".pdf,.epub,.mobi,.txt,.docx,.azw3,.fb2,.djvu,.rtf,.html,.htm" />
           <div v-if="ebookName" class="mt-1 text-muted">Selected: {{ ebookName }}</div>
           <div v-if="form.errors.ebook_file" class="text-danger">{{ form.errors.ebook_file }}</div>
         </div>
       </div>
-      <div class="mt-4">
-        <button type="submit" class="btn btn-primary" :disabled="form.processing">
+      <div class="mt-4 d-flex gap-2">
+        <button type="submit" class="btn btn-success shadow-sm" :disabled="form.processing">
           <i class="bi bi-plus"></i> {{ form.processing ? 'Saving...' : 'Add Book' }}
         </button>
-        <Link :href="route('admin.books.index')" class="btn btn-secondary ms-2">
+        <Link :href="route('admin.books.index')" class="btn btn-outline-success">
           <i class="bi bi-arrow-left"></i> Cancel
         </Link>
       </div>
     </form>
   </div>
 </template>
+
+<style scoped>
+.admin-book-create-card {
+  border-width: 2px;
+  border-radius: 1.25rem;
+  margin-bottom: 32px;
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+.admin-book-create-card:focus-within, .admin-book-create-card:hover {
+  box-shadow: 0 0.5rem 1.5rem rgba(25, 135, 84, 0.15);
+  border-color: #157347;
+}
+</style>

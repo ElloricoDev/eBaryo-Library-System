@@ -96,14 +96,23 @@ watch(() => props.url, (newUrl) => {
 <template>
   <div>
     <div class="d-flex justify-content-between mb-2 align-items-center">
-      <button class="btn btn-outline-secondary btn-sm" @click="prevPage">
+      <button class="btn btn-outline-success btn-sm" @click="prevPage">
         &laquo; Previous
       </button>
-      <span class="text-muted small">Page {{ currentPage }} / {{ totalPages }}</span>
-      <button class="btn btn-outline-secondary btn-sm" @click="nextPage">
+      <span class="text-success small fw-semibold">Page {{ currentPage }} / {{ totalPages }}</span>
+      <button class="btn btn-outline-success btn-sm" @click="nextPage">
         Next &raquo;
       </button>
     </div>
-    <div ref="viewer" style="border:1px solid #ccc; border-radius:8px; overflow:hidden;"></div>
+    <div ref="viewer" class="epub-viewer-green"></div>
   </div>
 </template>
+
+<style scoped>
+.epub-viewer-green {
+  border: 2px solid #198754;
+  border-radius: 1rem;
+  overflow: hidden;
+  background: #f6fef6;
+}
+</style>

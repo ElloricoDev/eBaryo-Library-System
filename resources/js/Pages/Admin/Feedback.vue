@@ -46,18 +46,18 @@ function markResponded(id) {
 <template>
     <Head title="Feedback Management" />
     <div class="container py-4">
-        <h1 class="fs-3 fw-bold mb-4 bi bi-chat-dots">Feedback Management</h1>
-        <div class="card">
+        <h1 class="fs-3 fw-bold mb-4 text-success d-flex align-items-center gap-2"><i class="bi bi-chat-dots"></i> Feedback Management</h1>
+        <div class="card border-success shadow admin-feedback-card">
             <div class="card-body">
-                <table class="table table-hover">
-                    <thead class="table-light">
+                <table class="table table-hover align-middle">
+                    <thead class="table-success">
                         <tr>
-                            <th>User</th>
-                            <th>Message</th>
-                            <th>Status</th>
-                            <th>Responded At</th>
-                            <th>Admin Response</th>
-                            <th>Actions</th>
+                            <th><i class="bi bi-person"></i> User</th>
+                            <th><i class="bi bi-chat-left-text"></i> Message</th>
+                            <th><i class="bi bi-info-circle"></i> Status</th>
+                            <th><i class="bi bi-clock-history"></i> Responded At</th>
+                            <th><i class="bi bi-reply"></i> Admin Response</th>
+                            <th><i class="bi bi-gear"></i> Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -68,10 +68,11 @@ function markResponded(id) {
                                 <span
                                     :class="
                                         fb.status === 'pending'
-                                            ? 'text-warning'
-                                            : 'text-success'
+                                            ? 'text-warning fw-semibold'
+                                            : 'text-success fw-semibold'
                                     "
                                 >
+                                    <i :class="fb.status === 'pending' ? 'bi bi-hourglass-split me-1' : 'bi bi-check-circle me-1'"></i>
                                     {{
                                         fb.status.charAt(0).toUpperCase() +
                                         fb.status.slice(1)
@@ -105,17 +106,17 @@ function markResponded(id) {
 
                                     <button
                                         @click="saveResponse(fb.id)"
-                                        class="btn btn-sm btn-primary"
+                                        class="btn btn-sm btn-success shadow-sm"
                                         :disabled="
                                             !responseInputs[fb.id]?.trim()
                                         "
                                     >
-                                        Save Response
+                                        <i class="bi bi-save"></i> Save Response
                                     </button>
                                 </div>
                                 <div v-else>
                                     <span v-if="fb.response">
-                                        {{ fb.response }}
+                                        <i class="bi bi-reply"></i> {{ fb.response }}
                                     </span>
                                     <span v-else class="text-muted">
                                         No response
@@ -126,9 +127,9 @@ function markResponded(id) {
                                 <button
                                     v-if="fb.status === 'pending'"
                                     @click="markResponded(fb.id)"
-                                    class="btn btn-sm btn-success"
+                                    class="btn btn-sm btn-outline-success shadow-sm"
                                 >
-                                    Mark Responded
+                                    <i class="bi bi-check-circle"></i> Mark Responded
                                 </button>
                                 <span v-else class="text-muted">—</span>
                             </td>
@@ -144,3 +145,15 @@ function markResponded(id) {
         </div>
     </div>
 </template>
+
+<style scoped>
+.admin-feedback-card {
+  border-width: 2px;
+  border-radius: 1.25rem;
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+.admin-feedback-card:focus-within, .admin-feedback-card:hover {
+  box-shadow: 0 0.5rem 1.5rem rgba(25, 135, 84, 0.15);
+  border-color: #157347;
+}
+</style>

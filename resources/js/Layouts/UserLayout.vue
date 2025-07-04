@@ -20,41 +20,44 @@ watch(searchQuery, (val) => {
 <template>
   <div class="d-flex flex-column min-vh-100">
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-success bg-success border-bottom shadow-sm fixed-top">
       <div class="container-fluid">
-        <Link class="navbar-brand fw-bold" :href="route('home')">
-          <i class="bi bi-book"></i> eBaryo
+        <Link class="navbar-brand fw-bold text-white d-flex align-items-center gap-2" :href="route('home')">
+          <i class="bi bi-book fs-3"></i> <span>eBaryo</span>
         </Link>
 
         <button
-          class="navbar-toggler"
+          class="navbar-toggler border-0"
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#userNavbar"
+          aria-controls="userNavbar"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
         >
           <span class="navbar-toggler-icon"></span>
         </button>
 
         <div class="collapse navbar-collapse" id="userNavbar">
-          <ul class="navbar-nav me-auto">
+          <ul class="navbar-nav me-auto gap-lg-2">
             <li class="nav-item">
-              <Link class="nav-link" href="/books"><i class="bi bi-journal-bookmark"></i> Books</Link>
+              <Link class="nav-link text-white nav-link-green" href="/books"><i class="bi bi-journal-bookmark"></i> Books</Link>
             </li>
             <li class="nav-item">
-              <Link class="nav-link" href="/saved"><i class="bi bi-bookmark-heart"></i> Saved</Link>
+              <Link class="nav-link text-white nav-link-green" href="/saved"><i class="bi bi-bookmark-heart"></i> Saved</Link>
             </li>
           </ul>
 
           <!-- Search bar -->
           <form class="d-flex me-3" @submit.prevent="submitSearch">
-            <input v-model="searchQuery" class="form-control me-2" type="search" placeholder="Search books..." aria-label="Search">
-            <button class="btn btn-outline-primary" type="submit"><i class="bi bi-search"></i></button>
+            <input v-model="searchQuery" class="form-control me-2 border-success" type="search" placeholder="Search books..." aria-label="Search">
+            <button class="btn btn-outline-success" type="submit"><i class="bi bi-search"></i></button>
           </form>
 
           <!-- Right-side dropdown -->
           <div class="dropdown">
             <button
-              class="btn btn-light dropdown-toggle d-flex align-items-center"
+              class="btn btn-success dropdown-toggle d-flex align-items-center text-white"
               type="button"
               id="profileDropdown"
               data-bs-toggle="dropdown"
@@ -88,7 +91,7 @@ watch(searchQuery, (val) => {
         </div>
       </div>
     </nav>
-    <div style="height: 56px;"></div>
+    <div style="height: 64px;"></div>
 
     <!-- Page content -->
     <main class="flex-grow-1 p-4 container">
@@ -96,8 +99,29 @@ watch(searchQuery, (val) => {
     </main>
 
     <!-- Optional footer -->
-    <footer class="bg-light py-3 text-center border-top">
+    <footer class="bg-success text-white py-3 text-center border-0 mt-auto shadow-sm">
       <small><i class="bi bi-c-circle"></i> {{ new Date().getFullYear() }} eBaryo Library</small>
     </footer>
   </div>
 </template>
+
+<style scoped>
+.navbar-success {
+  background-color: #198754 !important;
+}
+.nav-link-green {
+  transition: background 0.2s, color 0.2s;
+  border-radius: 0.375rem;
+}
+.nav-link-green:hover, .nav-link-green:focus, .nav-link-green.router-link-exact-active {
+  background: #157347;
+  color: #fff !important;
+}
+.navbar-brand span {
+  letter-spacing: 1px;
+  font-size: 1.25rem;
+}
+footer {
+  letter-spacing: 0.5px;
+}
+</style>

@@ -29,7 +29,7 @@ onUnmounted(() => {
 <template>
     <Head title="All Books" />
   <div>
-    <h1>All Books</h1>
+    <h1 class="text-success fw-bold d-flex align-items-center gap-2 mb-4"><i class="bi bi-journals"></i> All Books</h1>
     <div class="row mt-4">
       <template v-if="filteredBooks.length > 0">
         <div v-for="book in filteredBooks" :key="book.id" class="col-md-4 mb-4">
@@ -38,7 +38,7 @@ onUnmounted(() => {
       </template>
       <template v-else>
         <div class="col-12 text-center text-muted py-5">
-          <i class="bi bi-search" style="font-size: 2rem;"></i>
+          <i class="bi bi-search text-success" style="font-size: 2rem;"></i>
           <div>No results found.</div>
         </div>
       </template>

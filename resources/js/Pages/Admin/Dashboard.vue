@@ -58,36 +58,36 @@ const uploadsChartOptions = {
 <template>
   <Head title="Dashboard"/>
   <div class="container py-4">
-    <h1 class="mb-4 fs-3 fw-bold">Admin Dashboard</h1>
+    <h1 class="mb-4 fs-3 fw-bold text-success d-flex align-items-center gap-2"><i class="bi bi-speedometer2"></i> Admin Dashboard</h1>
     <div class="row g-4 mb-4">
       <div class="col-md-3">
-        <div class="card shadow-sm border-0">
+        <div class="card shadow-sm border-success admin-stat-card">
           <div class="card-body">
-            <h5 class="card-title">Total Users</h5>
-            <p class="card-text fs-4 fw-semibold text-primary">{{ props.totalUsers }}</p>
+            <h5 class="card-title text-success d-flex align-items-center gap-2"><i class="bi bi-people"></i> Total Users</h5>
+            <p class="card-text fs-4 fw-semibold text-success-emphasis">{{ props.totalUsers }}</p>
           </div>
         </div>
       </div>
       <div class="col-md-3">
-        <div class="card shadow-sm border-0">
+        <div class="card shadow-sm border-success admin-stat-card">
           <div class="card-body">
-            <h5 class="card-title">Ebooks Available</h5>
-            <p class="card-text fs-4 fw-semibold text-success">{{ props.totalBooks }}</p>
+            <h5 class="card-title text-success d-flex align-items-center gap-2"><i class="bi bi-book"></i> Ebooks Available</h5>
+            <p class="card-text fs-4 fw-semibold text-success-emphasis">{{ props.totalBooks }}</p>
           </div>
         </div>
       </div>
       <div class="col-md-3">
-        <div class="card shadow-sm border-0">
+        <div class="card shadow-sm border-success admin-stat-card">
           <div class="card-body">
-            <h5 class="card-title">New Ebooks This Month</h5>
+            <h5 class="card-title text-success d-flex align-items-center gap-2"><i class="bi bi-calendar-plus"></i> New Ebooks This Month</h5>
             <p class="card-text fs-4 fw-semibold text-info">{{ props.newBooksThisMonth }}</p>
           </div>
         </div>
       </div>
       <div class="col-md-3">
-        <div class="card shadow-sm border-0">
+        <div class="card shadow-sm border-success admin-stat-card">
           <div class="card-body">
-            <h5 class="card-title">Categories</h5>
+            <h5 class="card-title text-success d-flex align-items-center gap-2"><i class="bi bi-folder"></i> Categories</h5>
             <p class="card-text fs-4 fw-semibold text-secondary">{{ props.totalCategories }}</p>
           </div>
         </div>
@@ -95,17 +95,17 @@ const uploadsChartOptions = {
     </div>
     <div class="row g-4 mb-4">
       <div class="col-md-3">
-        <div class="card shadow-sm border-0">
+        <div class="card shadow-sm border-success admin-stat-card">
           <div class="card-body">
-            <h5 class="card-title">Active Readers (30d)</h5>
-            <p class="card-text fs-4 fw-semibold text-primary">{{ props.activeReaders }}</p>
+            <h5 class="card-title text-success d-flex align-items-center gap-2"><i class="bi bi-person-check"></i> Active Readers (30d)</h5>
+            <p class="card-text fs-4 fw-semibold text-success-emphasis">{{ props.activeReaders }}</p>
           </div>
         </div>
       </div>
       <div class="col-md-3">
-        <div class="card shadow-sm border-0">
+        <div class="card shadow-sm border-success admin-stat-card">
           <div class="card-body">
-            <h5 class="card-title">Feedbacks</h5>
+            <h5 class="card-title text-success d-flex align-items-center gap-2"><i class="bi bi-chat-dots"></i> Feedbacks</h5>
             <p class="card-text fs-4 fw-semibold text-danger">{{ props.feedbacks }}</p>
           </div>
         </div>
@@ -113,15 +113,15 @@ const uploadsChartOptions = {
     </div>
     <div class="row g-4 mb-4">
       <div class="col-md-6">
-        <div class="card h-100">
+        <div class="card h-100 border-success admin-table-card">
           <div class="card-body">
-            <h5 class="card-title mb-3">Recent User Signups</h5>
+            <h5 class="card-title mb-3 text-success d-flex align-items-center gap-2"><i class="bi bi-person-plus"></i> Recent User Signups</h5>
             <table class="table table-sm mb-0">
-              <thead>
+              <thead class="table-success">
                 <tr>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>Joined</th>
+                  <th><i class="bi bi-person"></i> Name</th>
+                  <th><i class="bi bi-envelope"></i> Email</th>
+                  <th><i class="bi bi-calendar"></i> Joined</th>
                 </tr>
               </thead>
               <tbody>
@@ -139,15 +139,15 @@ const uploadsChartOptions = {
         </div>
       </div>
       <div class="col-md-6">
-        <div class="card h-100">
+        <div class="card h-100 border-success admin-table-card">
           <div class="card-body">
-            <h5 class="card-title mb-3">Recently Added Ebooks</h5>
+            <h5 class="card-title mb-3 text-success d-flex align-items-center gap-2"><i class="bi bi-journal-plus"></i> Recently Added Ebooks</h5>
             <table class="table table-sm mb-0">
-              <thead>
+              <thead class="table-success">
                 <tr>
-                  <th>Title</th>
-                  <th>Author</th>
-                  <th>Added</th>
+                  <th><i class="bi bi-book"></i> Title</th>
+                  <th><i class="bi bi-person"></i> Author</th>
+                  <th><i class="bi bi-calendar"></i> Added</th>
                 </tr>
               </thead>
               <tbody>
@@ -167,14 +167,14 @@ const uploadsChartOptions = {
     </div>
     <div class="row g-4 mb-4">
       <div class="col-md-6">
-        <div class="card h-100">
+        <div class="card h-100 border-success admin-table-card">
           <div class="card-body">
-            <h5 class="card-title mb-3">Most Read Ebooks</h5>
+            <h5 class="card-title mb-3 text-success d-flex align-items-center gap-2"><i class="bi bi-book-half"></i> Most Read Ebooks</h5>
             <table class="table table-sm mb-0">
-              <thead>
+              <thead class="table-success">
                 <tr>
-                  <th>Title</th>
-                  <th>Reads</th>
+                  <th><i class="bi bi-book"></i> Title</th>
+                  <th><i class="bi bi-eye"></i> Reads</th>
                 </tr>
               </thead>
               <tbody>
@@ -191,14 +191,14 @@ const uploadsChartOptions = {
         </div>
       </div>
       <div class="col-md-6">
-        <div class="card h-100">
+        <div class="card h-100 border-success admin-table-card">
           <div class="card-body">
-            <h5 class="card-title mb-3">Most Active Users</h5>
+            <h5 class="card-title mb-3 text-success d-flex align-items-center gap-2"><i class="bi bi-person-lines-fill"></i> Most Active Users</h5>
             <table class="table table-sm mb-0">
-              <thead>
+              <thead class="table-success">
                 <tr>
-                  <th>Name</th>
-                  <th>Reads</th>
+                  <th><i class="bi bi-person"></i> Name</th>
+                  <th><i class="bi bi-eye"></i> Reads</th>
                 </tr>
               </thead>
               <tbody>
@@ -217,9 +217,9 @@ const uploadsChartOptions = {
     </div>
     <div class="row g-4 mb-4">
       <div class="col-12">
-        <div class="card">
+        <div class="card border-success admin-table-card">
           <div class="card-body">
-            <h5 class="card-title mb-3">Ebook Uploads Over Time</h5>
+            <h5 class="card-title mb-3 text-success d-flex align-items-center gap-2"><i class="bi bi-graph-up-arrow"></i> Ebook Uploads Over Time</h5>
             <Line :data="uploadsChartData" :options="uploadsChartOptions" height="80" />
           </div>
         </div>
@@ -227,3 +227,24 @@ const uploadsChartOptions = {
     </div>
   </div>
 </template>
+
+<style scoped>
+.admin-stat-card {
+  border-width: 2px;
+  border-radius: 1.25rem;
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+.admin-stat-card:focus-within, .admin-stat-card:hover {
+  box-shadow: 0 0.5rem 1.5rem rgba(25, 135, 84, 0.15);
+  border-color: #157347;
+}
+.admin-table-card {
+  border-width: 2px;
+  border-radius: 1.25rem;
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+.admin-table-card:focus-within, .admin-table-card:hover {
+  box-shadow: 0 0.5rem 1.5rem rgba(25, 135, 84, 0.15);
+  border-color: #157347;
+}
+</style>

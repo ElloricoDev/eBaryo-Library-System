@@ -8,28 +8,28 @@ const user = props.auth?.user || {}
   <div>
     <!-- Sidebar -->
     <nav
-      class="bg-light border-end p-3 position-fixed"
+      class="bg-success sidebar-green border-end p-3 position-fixed"
       style="width: 250px; height: 100vh; top: 0; left: 0; z-index: 1030;"
     >
-      <h5 class="mb-4">Admin Panel</h5>
+      <h5 class="mb-4 text-white"><i class="bi bi-shield-lock me-2"></i>Admin Panel</h5>
       <ul class="nav flex-column">
         <li class="nav-item">
-          <Link class="nav-link" :href="route('dashboard')"><i class="bi bi-speedometer2"></i> Dashboard</Link>
+          <Link class="nav-link text-white sidebar-link-green" :href="route('dashboard')"><i class="bi bi-speedometer2"></i> Dashboard</Link>
         </li>
         <li class="nav-item">
-          <Link class="nav-link" :href="route('admin.users.index')"><i class="bi bi-people"></i> Users</Link>
+          <Link class="nav-link text-white sidebar-link-green" :href="route('admin.users.index')"><i class="bi bi-people"></i> Users</Link>
         </li>
         <li class="nav-item">
-          <Link class="nav-link" :href="route('admin.books.index')"><i class="bi bi-book"></i> Books</Link>
+          <Link class="nav-link text-white sidebar-link-green" :href="route('admin.books.index')"><i class="bi bi-book"></i> Books</Link>
         </li>
         <li class="nav-item">
-          <Link class="nav-link" :href="route('admin.categories.index')"><i class="bi bi-folder"></i> Category</Link>
+          <Link class="nav-link text-white sidebar-link-green" :href="route('admin.categories.index')"><i class="bi bi-folder"></i> Category</Link>
         </li>
         <li class="nav-item">
-          <Link class="nav-link" :href="route('admin.settings.index')"><i class="bi bi-gear"></i> Settings</Link>
+          <Link class="nav-link text-white sidebar-link-green" :href="route('admin.settings.index')"><i class="bi bi-gear"></i> Settings</Link>
         </li>
         <li class="nav-item">
-          <Link class="nav-link" :href="route('admin.feedback.index')"><i class="bi bi-chat-dots"></i> Feedback</Link>
+          <Link class="nav-link text-white sidebar-link-green" :href="route('admin.feedback.index')"><i class="bi bi-chat-dots"></i> Feedback</Link>
         </li>
       </ul>
     </nav>
@@ -43,8 +43,8 @@ const user = props.auth?.user || {}
       >
         <!-- Search bar -->
         <div class="input-group w-50">
-          <input type="text" class="form-control" placeholder="Search..." />
-          <button class="btn btn-outline-secondary" type="button">
+          <input type="text" class="form-control border-success" placeholder="Search..." />
+          <button class="btn btn-success" type="button">
             <i class="bi bi-search"></i>
           </button>
         </div>
@@ -52,7 +52,7 @@ const user = props.auth?.user || {}
         <!-- Profile Dropdown -->
         <div class="dropdown">
           <button
-            class="btn btn-light dropdown-toggle d-flex align-items-center"
+            class="btn btn-success dropdown-toggle d-flex align-items-center text-white"
             type="button"
             id="profileDropdown"
             data-bs-toggle="dropdown"
@@ -95,5 +95,15 @@ const user = props.auth?.user || {}
 .ms-250 {
   margin-left: 250px;
 }
-
+.sidebar-green {
+  background-color: #198754 !important;
+}
+.sidebar-link-green {
+  transition: background 0.2s, color 0.2s;
+  border-radius: 0.375rem;
+}
+.sidebar-link-green:hover, .sidebar-link-green:focus, .sidebar-link-green.router-link-exact-active {
+  background: #157347;
+  color: #fff !important;
+}
 </style>
