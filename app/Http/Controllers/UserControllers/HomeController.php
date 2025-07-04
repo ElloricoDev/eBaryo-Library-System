@@ -14,6 +14,7 @@ class HomeController extends Controller
         $books = Book::latest()->get();
         $user = Auth::user();
         $continueReading = null;
+        $savedBookIds = $user ? $user->savedBooks()->pluck('book_id')->toArray() : [];
         if ($user) {
             $continueReading = ReadingLog::with('book')
                 ->where('user_id', $user->id)
@@ -23,7 +24,8 @@ class HomeController extends Controller
         }
         return inertia('User/Home', [
             'books' => $books,
-            'continueReading' => $continueReading
+            'continueReading' => $continueReading,
+            'saved_books' => $savedBookIds,
         ]);
     }
 }

@@ -56,4 +56,9 @@ class User extends Authenticatable implements MustVerifyEmail
             'password' => 'hashed',
         ];
     }
+
+    public function savedBooks()
+    {
+        return $this->belongsToMany(Book::class, 'book_user')->withTimestamps();
+    }
 }

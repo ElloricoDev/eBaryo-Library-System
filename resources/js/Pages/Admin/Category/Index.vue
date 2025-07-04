@@ -1,6 +1,7 @@
 <script setup>
 import AdminLayout from '@/Layouts/AdminLayout.vue';
 import {  router } from '@inertiajs/vue3';
+import Swal from 'sweetalert2'
 
 defineOptions({ layout: AdminLayout });
 
@@ -12,9 +13,27 @@ const categories = props.categories || [];
 
 // Delete handler
 function deleteCategory(id) {
-    if (confirm('Are you sure you want to delete this category?')) {
-        router.delete(route('admin.categories.destroy', id));
-    }
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            router.delete(route('admin.categories.destroy', id), {
+                onSuccess: () => {
+                    Swal.fire(
+                        'Deleted!',
+                        'Category has been deleted.',
+                        'success'
+                    );
+                }
+            });
+        }
+    });
 }
 </script>
 

@@ -43,9 +43,6 @@ watch(searchQuery, (val) => {
             <li class="nav-item">
               <Link class="nav-link text-white nav-link-green" href="/books"><i class="bi bi-journal-bookmark"></i> Books</Link>
             </li>
-            <li class="nav-item">
-              <Link class="nav-link text-white nav-link-green" href="/saved"><i class="bi bi-bookmark-heart"></i> Saved</Link>
-            </li>
           </ul>
 
           <!-- Search bar -->
@@ -85,6 +82,7 @@ watch(searchQuery, (val) => {
               <li><Link class="dropdown-item" :href="route('feedback.create')"><i class="bi bi-chat-dots"></i> Feedback</Link></li>
               <li><Link class="dropdown-item" :href="route('feedback.my')"><i class="bi bi-list-check"></i> My Feedback</Link></li>
               <li><hr class="dropdown-divider" /></li>
+              <li><Link class="dropdown-item" :href="route('books.saved')" method="get"><i class="bi bi-bookmark"></i> Saved Books</Link></li>
               <li><Link class="dropdown-item text-danger" :href="route('logout')" method="post"><i class="bi bi-box-arrow-right"></i> Logout</Link></li>
             </ul>
           </div>

@@ -1,12 +1,13 @@
 <script setup>
 import UserLayout from '@/Layouts/UserLayout.vue';
-import { usePage, Link } from '@inertiajs/vue3';
+import { usePage, router } from '@inertiajs/vue3';
 import BookCard from '@/Components/BookCard.vue';
 import { ref, onMounted, onUnmounted, computed } from 'vue';
 
 defineOptions({layout: UserLayout});
 const { props } = usePage();
 const books = props.books || [];
+const savedBookIds = computed(() => props.saved_books ?? []);
 const search = ref('');
 const filteredBooks = computed(() => {
   if (!search.value) return books;
@@ -24,6 +25,23 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener('user-search', handleSearch);
 });
+
+const saveBook = (book) => {
+  router.post(route('books.save', { id: book.id }), {}, {
+    preserveScroll: true,
+    onSuccess: () => {
+      router.reload({ only: ['saved_books'] });
+    }
+  });
+};
+const unsaveBook = (book) => {
+  router.post(route('books.unsave', { id: book.id }), {}, {
+    preserveScroll: true,
+    onSuccess: () => {
+      router.reload({ only: ['saved_books'] });
+    }
+  });
+};
 </script>
 
 <template>
@@ -33,7 +51,10 @@ onUnmounted(() => {
     <div class="row mt-4">
       <template v-if="filteredBooks.length > 0">
         <div v-for="book in filteredBooks" :key="book.id" class="col-md-4 mb-4">
-          <BookCard :book="book" />
+          <BookCard :book="{...book, from: 'book'}"
+                    :isSaved="savedBookIds.value.includes(book.id)"
+                    @save="saveBook"
+                    @unsave="unsaveBook" />
         </div>
       </template>
       <template v-else>

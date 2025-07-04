@@ -2,18 +2,35 @@
 import UserLayout from '@/Layouts/UserLayout.vue';
 import { usePage, Head, Link } from '@inertiajs/vue3';
 import EpubReader from '@/Components/EpubReader.vue';
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
+import { useRouter } from 'vue-router';
+
 defineOptions({ layout: UserLayout });
 const { props } = usePage();
 const book = props.book;
+const savedBookIds = props.saved_books || [];
+const isSaved = computed(() => savedBookIds.includes(book.id));
 const showReader = ref(false);
+const router = useRouter();
 
 function handleReadNow() {
   showReader.value = !showReader.value;
 }
 function saveBook() {
-  // Placeholder: implement save logic
-  alert('Book saved! (feature coming soon)');
+  if (isSaved.value) return;
+  router.post(route('books.save', { id: book.id }), {}, {
+    onSuccess: () => {
+      // Optionally show a notification
+    }
+  });
+}
+function unsaveBook() {
+  if (!isSaved.value) return;
+  router.post(route('books.unsave', { id: book.id }), {}, {
+    onSuccess: () => {
+      // Optionally show a notification
+    }
+  });
 }
 function reportBook() {
   // Placeholder: implement report logic
@@ -43,8 +60,11 @@ function reportBook() {
           >
             <i class="bi bi-book"></i> Read
           </Link>
-          <button class="btn btn-outline-success w-100 shadow-sm" @click="saveBook">
+          <button v-if="!isSaved" class="btn btn-outline-success w-100 shadow-sm" @click="saveBook">
             <i class="bi bi-bookmark"></i> Save
+          </button>
+          <button v-else class="btn btn-outline-warning w-100 shadow-sm" @click="unsaveBook">
+            <i class="bi bi-bookmark-x"></i> Unsave
           </button>
           <button class="btn btn-outline-danger w-100 shadow-sm" @click="reportBook">
             <i class="bi bi-flag"></i> Report

@@ -1,13 +1,20 @@
 <script setup>
 import {  router } from '@inertiajs/vue3';
 import { computed } from 'vue';
+import Swal from 'sweetalert2';
 
 const props = defineProps({
   book: {
     type: Object,
     required: true
+  },
+  isSaved: {
+    type: Boolean,
+    required: true
   }
 });
+
+const emit = defineEmits(['save', 'unsave', 'report']);
 
 // Compute the avatar URL, fallback to default if not present
 const avatarUrl = computed(() => {
@@ -21,6 +28,41 @@ const goToRead = () => {
     params.from = from;
   }
   router.visit(route('books.read', params), { preserveScroll: true });
+};
+
+const handleSave = () => {
+  // Emit save event and show toast
+  emit('save', props.book);
+  Swal.fire({
+    icon: 'success',
+    title: 'Book saved!',
+    text: `"${props.book.title}" has been added to your saved books.`,
+    timer: 1500,
+    showConfirmButton: false
+  });
+};
+
+const handleUnsave = () => {
+  // Show confirmation before unsaving
+  Swal.fire({
+    title: 'Unsave this book?',
+    text: `Are you sure you want to remove "${props.book.title}" from your saved books?`,
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Yes, Unsave',
+    cancelButtonText: 'Cancel'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      emit('unsave', props.book);
+      Swal.fire({
+        icon: 'success',
+        title: 'Book unsaved!',
+        text: `"${props.book.title}" has been removed from your saved books.`,
+        timer: 1500,
+        showConfirmButton: false
+      });
+    }
+  });
 };
 </script>
 
@@ -37,8 +79,19 @@ const goToRead = () => {
         <Link :href="route('books.view', { id: book.id })" class="btn btn-outline-success btn-sm shadow-sm">
           <i class="bi bi-eye"></i> View Details
         </Link>
-        <button class="btn btn-outline-success btn-sm shadow-sm" @click="$emit('save', book)">
-          <i class="bi bi-bookmark"></i> Saved
+        <button
+          v-if="!isSaved"
+          class="btn btn-outline-success btn-sm shadow-sm"
+          @click="handleSave"
+        >
+          <i class="bi bi-bookmark"></i> Save
+        </button>
+        <button
+          v-else
+          class="btn btn-outline-warning btn-sm shadow-sm"
+          @click="handleUnsave"
+        >
+          <i class="bi bi-bookmark-x"></i> Unsave
         </button>
         <button class="btn btn-outline-danger btn-sm shadow-sm" @click="$emit('report', book)">
           <i class="bi bi-flag"></i> Report

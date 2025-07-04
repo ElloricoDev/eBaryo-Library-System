@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\AdminControllers\DashboardController;
 use App\Http\Controllers\UserControllers\HomeController;
 use App\Http\Controllers\UserControllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -28,13 +27,17 @@ Route::middleware('auth', 'user')->group(function () {
             Route::put('/password', 'updatePassword')->name('password.update');
             Route::delete('/delete', 'destroy')->name('destroy');
             Route::post('/send-verification-email', 'sendVerificationEmail')->name('sendVerificationEmail');
-    });
+        });
 
     //Book Routes
-    Route::get('/books',[BookController::class, 'index'])->name('books.index');
+    Route::get('/books', [BookController::class, 'index'])->name('books.index');
+    Route::get('/books/saved', [BookController::class, 'savedBooks'])->name('books.saved'); 
     Route::get('/books/{id}', [BookController::class, 'show'])->name('books.view');
     Route::get('/books/{id}/read', [BookController::class, 'read'])->name('books.read');
-    Route::post('/books/{id}/progress', [\App\Http\Controllers\UserControllers\BookController::class, 'saveProgress'])->name('books.saveProgress');
+    Route::post('/books/{id}/progress', [BookController::class, 'saveProgress'])->name('books.saveProgress');
+    Route::post('/books/{id}/save', [BookController::class, 'saveBook'])->name('books.save');
+    Route::post('/books/{id}/unsave', [BookController::class, 'unsaveBook'])->name('books.unsave');
+
 
     //Feedback Routes
     Route::get('/feedback', [FeedbackController::class, 'create'])->name('feedback.create');
@@ -54,7 +57,6 @@ Route::middleware(['auth'])->group(function () {
         Auth::user()->sendEmailVerificationNotification();
         return back()->with('message', 'Verification link sent!');
     })->middleware(['throttle:6,1'])->name('verification.send');
-
 });
 
 

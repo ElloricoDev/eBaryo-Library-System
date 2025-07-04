@@ -8,22 +8,29 @@ use Illuminate\Http\Request;
 use App\Models\ReadingLog;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
+use App\Models\User;
 
 class BookController extends Controller
 {
     public function index()
     {
         $books = Book::with('category')->latest()->get();
+        $user = Auth::user();
+        $savedBookIds = $user ? $user->savedBooks()->pluck('book_id')->toArray() : [];
         return inertia('User/Books/Books', [
-            'books' => $books
+            'books' => $books,
+            'saved_books' => $savedBookIds
         ]);
     }
 
     public function show($id)
     {
         $book = Book::with('category')->findOrFail($id);
+        $user = Auth::user();
+        $savedBookIds = $user ? $user->savedBooks()->pluck('book_id')->toArray() : [];
         return inertia('User/Books/BookDetails', [
-            'book' => $book
+            'book' => $book,
+            'saved_books' => $savedBookIds
         ]);
     }
 
@@ -61,5 +68,43 @@ class BookController extends Controller
         }
         $log->save();
         return back();
+    }
+
+    public function saveBook(Request $request, $id)
+    {
+        $user = Auth::user();
+        if (!$user) {
+            abort(401, 'Unauthorized');
+        }
+        $book = Book::findOrFail($id);
+        if (!$user->savedBooks()->where('book_id', $book->id)->exists()) {
+            $user->savedBooks()->attach($book->id);
+        }
+        return redirect()->route('home');
+    }
+
+    public function unsaveBook(Request $request, $id)
+    {
+        $user = Auth::user();
+        if (!$user) {
+            abort(401, 'Unauthorized');
+        }
+        $book = Book::findOrFail($id);
+        $user->savedBooks()->detach($book->id);
+        return redirect()->route('home');
+    }
+
+    public function savedBooks()
+    {
+        $user = Auth::user();
+        if (!$user) {
+            abort(401, 'Unauthorized');
+        }
+        $books = $user->savedBooks()->with('category')->get();
+        $savedBookIds = $user->savedBooks()->pluck('book_id')->toArray();
+        return inertia('User/Books/Saved', [
+            'books' => $books,
+            'saved_books' => $savedBookIds
+        ]);
     }
 }
