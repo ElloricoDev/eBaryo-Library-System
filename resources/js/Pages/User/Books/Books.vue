@@ -7,8 +7,13 @@ import { ref, onMounted, onUnmounted, computed } from 'vue';
 defineOptions({layout: UserLayout});
 const { props } = usePage();
 const books = props.books || [];
-const savedBookIds = computed(() => props.saved_books ?? []);
+const savedBookIds = ref(Array.isArray(props.saved_books) ? props.saved_books : []);
 const search = ref('');
+
+// Ensure we always have a valid array
+const safeSavedBookIds = computed(() => {
+  return Array.isArray(savedBookIds.value) ? savedBookIds.value : [];
+});
 const filteredBooks = computed(() => {
   if (!search.value) return books;
   return books.filter(book =>
@@ -30,7 +35,13 @@ const saveBook = (book) => {
   router.post(route('books.save', { id: book.id }), {}, {
     preserveScroll: true,
     onSuccess: () => {
-      router.reload({ only: ['saved_books'] });
+      // Update local state
+      if (Array.isArray(savedBookIds.value) && !savedBookIds.value.includes(book.id)) {
+        savedBookIds.value.push(book.id);
+      }
+    },
+    onError: (errors) => {
+      console.error('Error saving book:', errors);
     }
   });
 };
@@ -38,7 +49,16 @@ const unsaveBook = (book) => {
   router.post(route('books.unsave', { id: book.id }), {}, {
     preserveScroll: true,
     onSuccess: () => {
-      router.reload({ only: ['saved_books'] });
+      // Update local state
+      if (Array.isArray(savedBookIds.value)) {
+        const index = savedBookIds.value.indexOf(book.id);
+        if (index > -1) {
+          savedBookIds.value.splice(index, 1);
+        }
+      }
+    },
+    onError: (errors) => {
+      console.error('Error unsaving book:', errors);
     }
   });
 };
@@ -51,8 +71,8 @@ const unsaveBook = (book) => {
     <div class="row mt-4">
       <template v-if="filteredBooks.length > 0">
         <div v-for="book in filteredBooks" :key="book.id" class="col-md-4 mb-4">
-          <BookCard :book="{...book, from: 'book'}"
-                    :isSaved="savedBookIds.value.includes(book.id)"
+          <BookCard :book="{...book, from: 'books'}"
+                    :isSaved="safeSavedBookIds.includes(book.id)"
                     @save="saveBook"
                     @unsave="unsaveBook" />
         </div>

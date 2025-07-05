@@ -2,7 +2,8 @@
 import AdminLayout from '@/Layouts/AdminLayout.vue';
 import { usePage, Link } from '@inertiajs/vue3';
 import { computed } from 'vue';
-// import EpubViewer from 'vue-epubjs' // Uncomment if you install vue-epubjs
+import PdfReader from '@/Components/PdfReader.vue';
+import EpubReader from '@/Components/EpubReader.vue';
 
 defineOptions({ layout: AdminLayout })
 
@@ -13,6 +14,12 @@ const fileExt = computed(() => {
   if (!book.ebook_file) return '';
   return book.ebook_file.split('.').pop().toLowerCase();
 });
+
+// Check if it's a PDF file
+const isPdf = computed(() => fileExt.value === 'pdf');
+
+// Check if it's an EPUB file
+const isEpub = computed(() => fileExt.value === 'epub');
 </script>
 
 <template>
@@ -61,21 +68,35 @@ const fileExt = computed(() => {
     <div class="card border-success shadow rounded-4">
       <div class="card-header bg-success text-white rounded-top-4"><i class="bi bi-file-earmark"></i> Read Ebook</div>
       <div class="card-body bg-light rounded-bottom-4">
-        <div v-if="book.ebook_file && fileExt === 'pdf'">
-          <iframe :src="book.ebook_file" width="100%" height="700px" style="border:none; border-radius: 1rem; box-shadow: 0 2px 16px rgba(0,128,0,0.08);"></iframe>
+        <!-- PDF Reader -->
+        <PdfReader 
+          v-if="isPdf && book.ebook_file" 
+          :url="book.ebook_file" 
+        />
+        
+        <!-- EPUB Reader -->
+        <EpubReader 
+          v-else-if="isEpub && book.ebook_file" 
+          :url="book.ebook_file" 
+        />
+        
+        <!-- Unsupported file type -->
+        <div v-else-if="book.ebook_file">
+          <div class="text-center py-5">
+            <i class="bi bi-file-earmark-x text-muted" style="font-size: 3rem;"></i>
+            <h5 class="text-muted mt-3">Unsupported File Format</h5>
+            <p class="text-muted">This file format is not supported for reading in the browser.</p>
+            <a :href="book.ebook_file" target="_blank" class="btn btn-outline-success">
+              <i class="bi bi-download"></i> Download File
+            </a>
+          </div>
         </div>
-        <!--
-        <div v-else-if="book.ebook_file && fileExt === 'epub'">
-          <EpubViewer :src="book.ebook_file" style="height: 700px;" />
-        </div>
-        -->
-        <div v-else>
-          <p>
-            <span v-if="book.ebook_file">
-              <i class="bi bi-file-earmark"></i> Unsupported file format. <a :href="book.ebook_file" target="_blank" class="btn btn-outline-success ms-2"><i class="bi bi-download"></i> Download</a>
-            </span>
-            <span v-else class="text-muted">N/A</span>
-          </p>
+        
+        <!-- No file -->
+        <div v-else class="text-center py-5">
+          <i class="bi bi-file-earmark-x text-muted" style="font-size: 3rem;"></i>
+          <h5 class="text-muted mt-3">No Ebook File</h5>
+          <p class="text-muted">No ebook file has been uploaded for this book.</p>
         </div>
       </div>
     </div>

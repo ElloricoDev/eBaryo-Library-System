@@ -20,7 +20,7 @@ class FeedbackController extends Controller
             'message' => 'required|string|max:2000',
         ]);
         Feedback::create([
-            'user_id' => Auth::id(),
+            'user_id' => auth()->id(),
             'message' => $request->message,
             'status' => 'pending',
         ]);
@@ -37,5 +37,23 @@ class FeedbackController extends Controller
             'feedbacks' => $feedbacks,
             'hasNewResponses' => $newResponses->count() > 0,
         ]);
+    }
+
+    public function reportBook(Request $request, $bookId)
+    {
+        $request->validate([
+            'reason' => 'required|string|max:500',
+            'description' => 'nullable|string|max:1000',
+        ]);
+
+        Feedback::create([
+            'user_id' => auth()->id(),
+            'message' => "Book Report - Book ID: {$bookId}\nReason: {$request->reason}\nDescription: " . ($request->description ?? 'No additional description'),
+            'status' => 'pending',
+            'type' => 'book_report',
+            'book_id' => $bookId,
+        ]);
+
+        return back()->with('success', 'Book report submitted successfully. Thank you for helping us maintain quality content.');
     }
 }

@@ -9,11 +9,19 @@ use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
-    public function index() {
-        $books = Book::with('category')->get();
+    public function index(Request $request) {
+        $query = Book::with('category');
+        
+        // Filter by status if provided
+        if ($request->has('status') && $request->status !== '') {
+            $query->where('status', $request->status);
+        }
+        
+        $books = $query->get();
 
         return inertia('Admin/Books/Index', [
-            'books' => $books
+            'books' => $books,
+            'filters' => $request->only(['status'])
         ]);
     }
 
@@ -93,6 +101,9 @@ class BookController extends Controller
             }
             $coverPath = $request->file('cover_image')->store('covers', 'public');
             $validated['cover_image'] = '/storage/' . $coverPath;
+        } else {
+            // Remove cover_image from validated data if no new file is uploaded
+            unset($validated['cover_image']);
         }
         if ($request->hasFile('ebook_file')) {
             // Delete previous ebook file if exists
@@ -103,8 +114,10 @@ class BookController extends Controller
             $filename = $sanitizedTitle . '_' . time() . '.' . $request->file('ebook_file')->getClientOriginalExtension();
             $ebookPath = $request->file('ebook_file')->storeAs('ebooks', $filename, 'public');
             $validated['ebook_file'] = '/storage/' . $ebookPath;
+        } else {
+            // Remove ebook_file from validated data if no new file is uploaded
+            unset($validated['ebook_file']);
         }
-
         $book->update($validated);
         return redirect()->route('admin.books.index')->with('message', 'Book updated successfully.');
     }
@@ -113,5 +126,13 @@ class BookController extends Controller
         $book = Book::findOrFail($id);
         $book->delete();
         return redirect()->route('admin.books.index')->with('message', 'Book deleted successfully.');
+    }
+
+    public function toggleStatus($id) {
+        $book = Book::findOrFail($id);
+        $book->status = $book->status === 'active' ? 'inactive' : 'active';
+        $book->save();
+        
+        return back()->with('message', 'Book status updated successfully.');
     }
 }

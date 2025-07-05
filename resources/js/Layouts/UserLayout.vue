@@ -39,14 +39,8 @@ watch(searchQuery, (val) => {
         </button>
 
         <div class="collapse navbar-collapse" id="userNavbar">
-          <ul class="navbar-nav me-auto gap-lg-2">
-            <li class="nav-item">
-              <Link class="nav-link text-white nav-link-green" href="/books"><i class="bi bi-journal-bookmark"></i> Books</Link>
-            </li>
-          </ul>
-
-          <!-- Search bar -->
-          <form class="d-flex me-3" @submit.prevent="submitSearch">
+          <!-- Centered Search bar -->
+          <form class="d-flex mx-auto" @submit.prevent="submitSearch" style="max-width: 400px;">
             <input v-model="searchQuery" class="form-control me-2 border-success" type="search" placeholder="Search books..." aria-label="Search">
             <button class="btn btn-outline-success" type="submit"><i class="bi bi-search"></i></button>
           </form>
@@ -79,10 +73,12 @@ watch(searchQuery, (val) => {
             <ul class="dropdown-menu dropdown-menu-end">
               <li><Link class="dropdown-item" :href="route('user.profile.index')"><i class="bi bi-person-lines-fill"></i> Profile</Link></li>
               <li><hr class="dropdown-divider" /></li>
+              <li><Link class="dropdown-item" :href="route('books.index')"><i class="bi bi-journal-bookmark"></i> All Books</Link></li>
+              <li><Link class="dropdown-item" :href="route('books.saved')" method="get"><i class="bi bi-bookmark"></i> Saved Books</Link></li>
+              <li><hr class="dropdown-divider" /></li>
               <li><Link class="dropdown-item" :href="route('feedback.create')"><i class="bi bi-chat-dots"></i> Feedback</Link></li>
               <li><Link class="dropdown-item" :href="route('feedback.my')"><i class="bi bi-list-check"></i> My Feedback</Link></li>
               <li><hr class="dropdown-divider" /></li>
-              <li><Link class="dropdown-item" :href="route('books.saved')" method="get"><i class="bi bi-bookmark"></i> Saved Books</Link></li>
               <li><Link class="dropdown-item text-danger" :href="route('logout')" method="post"><i class="bi bi-box-arrow-right"></i> Logout</Link></li>
             </ul>
           </div>

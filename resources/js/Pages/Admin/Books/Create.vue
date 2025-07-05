@@ -72,6 +72,7 @@ const submit = () => {
 </script>
 
 <template>
+  <Head title="Create Book" />
   <div class="container py-4">
     <div class="d-flex align-items-center mb-4">
       <Link :href="route('admin.books.index')" class="btn btn-outline-success me-3">

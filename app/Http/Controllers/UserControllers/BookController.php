@@ -14,7 +14,7 @@ class BookController extends Controller
 {
     public function index()
     {
-        $books = Book::with('category')->latest()->get();
+        $books = Book::with('category')->where('status', 'active')->latest()->get();
         $user = Auth::user();
         $savedBookIds = $user ? $user->savedBooks()->pluck('book_id')->toArray() : [];
         return inertia('User/Books/Books', [
@@ -25,7 +25,7 @@ class BookController extends Controller
 
     public function show($id)
     {
-        $book = Book::with('category')->findOrFail($id);
+        $book = Book::with('category')->where('status', 'active')->findOrFail($id);
         $user = Auth::user();
         $savedBookIds = $user ? $user->savedBooks()->pluck('book_id')->toArray() : [];
         return inertia('User/Books/BookDetails', [
@@ -36,7 +36,7 @@ class BookController extends Controller
 
     public function read($id)
     {
-        $book = Book::with('category')->findOrFail($id);
+        $book = Book::with('category')->where('status', 'active')->findOrFail($id);
         $user = Auth::user();
         $lastPercent = null;
         if ($user) {
@@ -80,7 +80,7 @@ class BookController extends Controller
         if (!$user->savedBooks()->where('book_id', $book->id)->exists()) {
             $user->savedBooks()->attach($book->id);
         }
-        return redirect()->route('home');
+        return back();
     }
 
     public function unsaveBook(Request $request, $id)
@@ -91,7 +91,7 @@ class BookController extends Controller
         }
         $book = Book::findOrFail($id);
         $user->savedBooks()->detach($book->id);
-        return redirect()->route('home');
+        return back();
     }
 
     public function savedBooks()
@@ -100,8 +100,8 @@ class BookController extends Controller
         if (!$user) {
             abort(401, 'Unauthorized');
         }
-        $books = $user->savedBooks()->with('category')->get();
-        $savedBookIds = $user->savedBooks()->pluck('book_id')->toArray();
+        $books = $user->savedBooks()->with('category')->where('status', 'active')->get();
+        $savedBookIds = $user->savedBooks()->where('status', 'active')->pluck('book_id')->toArray();
         return inertia('User/Books/Saved', [
             'books' => $books,
             'saved_books' => $savedBookIds

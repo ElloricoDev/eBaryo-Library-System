@@ -48,10 +48,11 @@ Route::middleware('auth', 'admin')->group(function () {
             Route::get('/', 'index')->name('index');
             Route::get('/create', 'create')->name('create');
             Route::post('/store', 'store')->name('store');
-            Route::get('/{id}', 'show')->name('show');
+            Route::patch('/toggle-status/{id}', 'toggleStatus')->name('toggle-status');
             Route::get('/edit/{id}', 'edit')->name('edit');
             Route::put('/update/{id}', 'update')->name('update');
             Route::delete('/delete/{id}', 'destroy')->name('destroy');
+            Route::get('/{id}', 'show')->name('show');
         });
     
     //Admin Category Management Routes

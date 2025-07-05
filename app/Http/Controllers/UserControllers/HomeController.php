@@ -11,7 +11,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $books = Book::latest()->get();
+        $books = Book::where('status', 'active')->latest()->get();
         $user = Auth::user();
         $continueReading = null;
         $savedBookIds = $user ? $user->savedBooks()->pluck('book_id')->toArray() : [];
@@ -19,6 +19,9 @@ class HomeController extends Controller
             $continueReading = ReadingLog::with('book')
                 ->where('user_id', $user->id)
                 ->where('last_percent', '>', 0)
+                ->whereHas('book', function($query) {
+                    $query->where('status', 'active');
+                })
                 ->orderByDesc('updated_at')
                 ->first();
         }

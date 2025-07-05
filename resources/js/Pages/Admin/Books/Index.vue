@@ -2,6 +2,7 @@
 import AdminLayout from '@/Layouts/AdminLayout.vue';
 import { usePage, router } from '@inertiajs/vue3';
 import Swal from 'sweetalert2';
+import { ref } from 'vue';
 
 defineOptions({
     layout: AdminLayout
@@ -9,6 +10,9 @@ defineOptions({
 
 const { props } = usePage();
 const books = props.books || [];
+const filters = props.filters || {};
+
+const statusFilter = ref(filters.status || '');
 
 const handleDelete = (id) => {
     Swal.fire({
@@ -26,6 +30,36 @@ const handleDelete = (id) => {
         }
     });
 };
+
+const filterBooks = () => {
+    router.get(route('admin.books.index'), { status: statusFilter.value }, {
+        preserveState: true,
+        preserveScroll: true,
+    });
+};
+
+const clearFilters = () => {
+    statusFilter.value = '';
+    router.get(route('admin.books.index'), {}, {
+        preserveState: true,
+        preserveScroll: true,
+    });
+};
+
+const toggleStatus = (id) => {
+    router.patch(route('admin.books.toggle-status', id), {}, {
+        preserveScroll: true,
+        onSuccess: () => {
+            Swal.fire({
+                icon: 'success',
+                title: 'Status Updated',
+                text: 'Book status has been updated successfully.',
+                timer: 2000,
+                showConfirmButton: false,
+            });
+        },
+    });
+};
 </script>
 
 <template>
@@ -34,6 +68,32 @@ const handleDelete = (id) => {
     <div class="d-flex justify-content-between align-items-center mb-4">
       <h1 class="fs-3 fw-bold mb-0 text-success d-flex align-items-center gap-2"><i class="bi bi-book"></i> Books</h1>
       <Link :href="route('admin.books.create')" class="btn btn-success shadow-sm d-flex align-items-center gap-2"><i class="bi bi-plus"></i> Add Book</Link>
+    </div>
+    
+    <!-- Filter Section -->
+    <div class="card border-success shadow mb-4">
+      <div class="card-body">
+        <div class="row g-3 align-items-end">
+          <div class="col-md-3">
+            <label class="form-label text-success"><i class="bi bi-funnel"></i> Status Filter</label>
+            <select v-model="statusFilter" class="form-control">
+              <option value="">All Status</option>
+              <option value="active">Active</option>
+              <option value="inactive">Inactive</option>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <button @click="filterBooks" class="btn btn-success w-100">
+              <i class="bi bi-search"></i> Filter
+            </button>
+          </div>
+          <div class="col-md-3">
+            <button @click="clearFilters" class="btn btn-outline-secondary w-100">
+              <i class="bi bi-x-circle"></i> Clear Filters
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="card border-success shadow admin-books-index-card">
       <div class="card-body p-0">
@@ -64,6 +124,10 @@ const handleDelete = (id) => {
               <td class="text-end">
                 <Link :href="route('admin.books.show', book.id)" class="btn btn-sm btn-info me-1"><i class="bi bi-eye"></i> View</Link>
                 <Link :href="route('admin.books.edit', book.id)" class="btn btn-sm btn-warning me-1"><i class="bi bi-pencil"></i> Edit</Link>
+                <button @click="toggleStatus(book.id)" :class="book.status === 'active' ? 'btn btn-sm btn-secondary me-1' : 'btn btn-sm btn-success me-1'">
+                  <i :class="book.status === 'active' ? 'bi bi-pause-circle' : 'bi bi-play-circle'"></i>
+                  {{ book.status === 'active' ? 'Deactivate' : 'Activate' }}
+                </button>
                 <button @click="handleDelete(book.id)" class="btn btn-sm btn-danger"><i class="bi bi-trash"></i> Delete</button>
               </td>
             </tr>

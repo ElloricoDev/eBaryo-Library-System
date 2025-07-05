@@ -18,11 +18,13 @@ const form = useForm({
   description: book.description || '',
   cover_image: null,
   ebook_file: null,
-  category_id: book.category_id || '',
+  category_id: book.category_id ? Number(book.category_id) : '',
   publisher: book.publisher || '',
   language: book.language || '',
   status: book.status || 'active',
 });
+
+
 
 const coverPreview = ref(book.cover_image || null);
 const ebookName = ref('');
@@ -58,8 +60,11 @@ const onEbookChange = (e) => {
 };
 
 const submit = () => {
-  form.post(route('admin.books.update', book.id), {
-    forceFormData: true,
+  // Only use forceFormData if we have files
+  const hasFiles = form.cover_image || form.ebook_file;
+  
+  form.put(route('admin.books.update', book.id), {
+    forceFormData: hasFiles,
     preserveScroll: true,
     onSuccess: () => {
       Swal.fire({
@@ -76,6 +81,7 @@ const submit = () => {
 </script>
 
 <template>
+  <Head title="Edit Book" />
   <div class="container py-4">
     <div class="d-flex align-items-center mb-4">
       <Link :href="route('admin.books.index')" class="btn btn-outline-success me-3">

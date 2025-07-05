@@ -43,6 +43,44 @@ Route::middleware('auth', 'user')->group(function () {
     Route::get('/feedback', [FeedbackController::class, 'create'])->name('feedback.create');
     Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.store');
     Route::get('/my-feedback', [FeedbackController::class, 'myFeedback'])->name('feedback.my');
+    Route::post('/books/{bookId}/report', [FeedbackController::class, 'reportBook'])->name('books.report');
+
+    //File serving route for PDFs and other ebooks
+    Route::get('/files/{filename}', function ($filename) {
+        $path = storage_path('app/public/ebooks/' . $filename);
+        
+        if (!file_exists($path)) {
+            abort(404);
+        }
+        
+        $file = file_get_contents($path);
+        $type = mime_content_type($path);
+        
+        return response($file, 200, [
+            'Content-Type' => $type,
+            'Content-Disposition' => 'inline; filename="' . $filename . '"',
+            'Access-Control-Allow-Origin' => '*',
+            'Access-Control-Allow-Methods' => 'GET, POST, OPTIONS',
+            'Access-Control-Allow-Headers' => 'Content-Type, Authorization, X-Requested-With',
+            'Cache-Control' => 'public, max-age=3600',
+        ]);
+    })->name('files.serve')->where('filename', '.*');
+    
+    // Test route to check if files are accessible
+    Route::get('/test-pdf/{filename}', function ($filename) {
+        $path = storage_path('app/public/ebooks/' . $filename);
+        
+        if (!file_exists($path)) {
+            return response()->json(['error' => 'File not found'], 404);
+        }
+        
+        return response()->json([
+            'exists' => true,
+            'size' => filesize($path),
+            'type' => mime_content_type($path),
+            'path' => $path
+        ]);
+    })->name('test.pdf')->where('filename', '.*');
 });
 
 Route::middleware(['auth'])->group(function () {
@@ -58,6 +96,9 @@ Route::middleware(['auth'])->group(function () {
         return back()->with('message', 'Verification link sent!');
     })->middleware(['throttle:6,1'])->name('verification.send');
 });
+
+Route::get('/phpinfo', fn() => phpinfo());
+
 
 
 require __DIR__ . '/auth.php';

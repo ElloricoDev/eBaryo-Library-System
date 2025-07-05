@@ -2,6 +2,8 @@
 import UserLayout from '@/Layouts/UserLayout.vue';
 import { usePage, Head, Link, router } from '@inertiajs/vue3';
 import EpubReader from '@/Components/EpubReader.vue';
+import PdfReader from '@/Components/PdfReader.vue';
+import { computed } from 'vue';
 
 defineOptions({ layout: UserLayout });
 const { props, url } = usePage();
@@ -30,6 +32,19 @@ const goBack = () => {
     router.visit(route('books.view', { id: book.id }));
   }
 };
+
+// Detect file type based on file extension
+const fileType = computed(() => {
+  if (!book.ebook_file) return null;
+  const extension = book.ebook_file.split('.').pop()?.toLowerCase();
+  return extension;
+});
+
+// Check if it's a PDF file
+const isPdf = computed(() => fileType.value === 'pdf');
+
+// Check if it's an EPUB file
+const isEpub = computed(() => fileType.value === 'epub');
 </script>
 
 <template>
@@ -43,7 +58,31 @@ const goBack = () => {
       <span></span>
     </div>
     <div class="bg-white rounded shadow p-2 border border-success reading-area" style="min-height: 80vh;">
-      <EpubReader :url="book.ebook_file" @update:percent="saveProgress" :startPercent="lastPercent" />
+      <!-- PDF Reader -->
+      <PdfReader 
+        v-if="isPdf" 
+        :url="book.ebook_file" 
+        @update:percent="saveProgress" 
+        :startPercent="lastPercent" 
+      />
+      
+      <!-- EPUB Reader -->
+      <EpubReader 
+        v-else-if="isEpub" 
+        :url="book.ebook_file" 
+        @update:percent="saveProgress" 
+        :startPercent="lastPercent" 
+      />
+      
+      <!-- Unsupported file type -->
+      <div v-else class="text-center py-5">
+        <i class="bi bi-file-earmark-x text-muted" style="font-size: 3rem;"></i>
+        <h5 class="text-muted mt-3">Unsupported File Format</h5>
+        <p class="text-muted">This file format is not supported for reading in the browser.</p>
+        <a :href="book.ebook_file" target="_blank" class="btn btn-outline-success">
+          <i class="bi bi-download"></i> Download File
+        </a>
+      </div>
     </div>
   </div>
 </template>

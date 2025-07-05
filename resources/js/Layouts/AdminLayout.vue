@@ -58,20 +58,14 @@ const isActive = (path) => {
         <li class="nav-item">
           <Link
             class="nav-link text-white sidebar-link-green"
-            :class="{ active: isActive('/admin/categories') }"
+            :class="{ active: isActive('/admin/category')}"
             :href="route('admin.categories.index')"
           >
             <i class="bi bi-folder"></i> Category
           </Link>
         </li>
         <li class="nav-item">
-          <Link
-            class="nav-link text-white sidebar-link-green"
-            :class="{ active: isActive('/admin/settings') }"
-            :href="route('admin.settings.index')"
-          >
-            <i class="bi bi-gear"></i> Settings
-          </Link>
+          
         </li>
         <li class="nav-item">
           <Link

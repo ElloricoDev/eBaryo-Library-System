@@ -16,10 +16,17 @@ class Feedback extends Model
         'responded_at',
         'response',
         'notified',
+        'type',
+        'book_id',
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function book()
+    {
+        return $this->belongsTo(Book::class);
     }
 }
