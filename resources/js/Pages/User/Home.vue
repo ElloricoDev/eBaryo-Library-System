@@ -93,6 +93,6 @@ onUnmounted(() => {
 .continue-alert {
   border-width: 2px;
   border-radius: 1rem;
-  border-color: #198754;
+  border-color: #198754; 
 }
 </style>

@@ -46,7 +46,7 @@ import { Link } from '@inertiajs/vue3'
     <div style="height: 64px;"></div>
 
     <!-- Page Content -->
-    <main class="flex-grow-1 d-flex align-items-center justify-content-center p-4">
+    <main class="flex-grow-1">
       <slot />
     </main>
 

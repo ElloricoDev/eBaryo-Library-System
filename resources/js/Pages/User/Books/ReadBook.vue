@@ -14,7 +14,7 @@ const lastPercent = props.lastPercent || 0;
 const from = new URLSearchParams(window.location.search).get('from');
 
 const saveProgress = (percent) => {
-  router.post(
+  router.post( 
     route('books.saveProgress', { id: book.id }),
     { percent },
     { preserveState: true, preserveScroll: true, replace: true }

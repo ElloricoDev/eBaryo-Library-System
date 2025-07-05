@@ -42,7 +42,7 @@ watch(searchQuery, (val) => {
           <!-- Centered Search bar -->
           <form class="d-flex mx-auto" @submit.prevent="submitSearch" style="max-width: 400px;">
             <input v-model="searchQuery" class="form-control me-2 border-success" type="search" placeholder="Search books..." aria-label="Search">
-            <button class="btn btn-outline-success" type="submit"><i class="bi bi-search"></i></button>
+            <button class="btn btn-success text-white" type="submit"><i class="bi bi-search"></i></button>
           </form>
 
           <!-- Right-side dropdown -->

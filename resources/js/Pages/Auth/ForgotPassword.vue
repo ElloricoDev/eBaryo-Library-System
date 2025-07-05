@@ -14,8 +14,8 @@ defineOptions({
 
 <template>
   <Head title="Forgot Password" />
-  <div class="container d-flex justify-content-center align-items-center">
-    <div class="card shadow forgot-card border-success mx-auto" style="max-width: 400px; width: 100%;">
+  <div class="container d-flex flex-column align-items-center justify-content-center min-vh-100 py-4">
+    <div class="card shadow forgot-card border-success w-100" style="max-width: 400px;">
       <div class="card-body">
         <h1 class="mb-4 text-center text-success-emphasis">
           <i class="bi bi-envelope me-2 text-success"></i>Forgot Password

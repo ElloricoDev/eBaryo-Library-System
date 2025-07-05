@@ -16,9 +16,9 @@ import { Link } from '@inertiajs/vue3'
         <p class="lead mb-4 mx-auto text-secondary" style="max-width: 600px;">
           Discover, read, and access books for your community — anytime, anywhere.
         </p>
-        <div class="d-flex justify-content-center gap-3 mb-4">
-          <Link :href="route('login')" class="btn btn-success px-4 shadow-sm"><i class="bi bi-box-arrow-in-right"></i> Login</Link>
-          <Link :href="route('register')" class="btn btn-outline-success px-4 shadow-sm"><i class="bi bi-person-plus"></i> Register</Link>
+        <div class="d-flex flex-column flex-md-row justify-content-center gap-3 mb-4">
+          <Link :href="route('login')" class="btn btn-success px-4 shadow-sm w-100 w-md-auto"><i class="bi bi-box-arrow-in-right"></i> Login</Link>
+          <Link :href="route('register')" class="btn btn-outline-success px-4 shadow-sm w-100 w-md-auto"><i class="bi bi-person-plus"></i> Register</Link>
         </div>
       </div>
 
@@ -106,6 +106,7 @@ import { Link } from '@inertiajs/vue3'
           <h2 class="h4 fw-semibold mb-2 text-success">...and more to come!</h2>
           <p class="text-secondary">Stay tuned for new features and updates as we continue to improve your library experience.</p>
         </div>
+        <div class="bg-red-500 text-white p-8">This is a Tailwind test</div>
       </section>
     </div>
   </GuestLayout>
